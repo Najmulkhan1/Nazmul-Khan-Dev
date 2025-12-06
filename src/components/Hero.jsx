@@ -194,7 +194,7 @@ const Hero = () => {
                                 ref={imageRef}
                                 alt="Portrait of Developer"
                                 className="absolute inset-0 w-full h-full object-cover rounded-3xl shadow-2xl"
-                                src="https://i.ibb.co/C5Csvgv8/Gemini-Generated-Image-mvnwkwmvnwkwmvnw.png"
+                                src="https://i.ibb.co/t0zjqWY/Untitled-design-8.png"
                                 animate={{ 
                                     y: [0, -15, 0]
                                 }}
