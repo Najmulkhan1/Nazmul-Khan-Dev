@@ -6,224 +6,221 @@ import { gsap } from 'gsap';
 const Hero = () => {
     const titleRef = useRef(null);
     const imageRef = useRef(null);
-    const statsRef = useRef([]);
     const [typedText, setTypedText] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
     const [showCursor, setShowCursor] = useState(true);
-    const [loopNum, setLoopNum] = useState(0);
+    const fullText = "MERN Stack Developer";
 
-    const fullText = "I'm MERN Developer, Full Stack Engineer";
+    // Snippets for the background "Code Rain"
+    const codeSnippets = [
+        "export const App = () => {",
+        "const [data, setData] = useState([]);",
+        "useEffect(() => { fetchAPI(); }, []);",
+        "router.post('/api/v1/deploy', (req, res) => {",
+        "db.connect(process.env.MONGO_URI);",
+        "model.find({ active: true }).then(res => ...)",
+        "npm install @framer/motion gsap",
+        "git commit -m 'feat: optimized UI'",
+        "while(coding) { eat(); sleep(); code(); }",
+        "const theme = { primary: '#00ff41' };",
+        "axios.get('/api/user/profile')",
+        "new Promise((resolve) => setTimeout(resolve))"
+    ];
 
+    // Typing Logic
     useEffect(() => {
         let timeout;
-        
         const handleTyping = () => {
             const currentText = fullText;
-            const updatedText = isDeleting 
+            const updatedText = isDeleting
                 ? currentText.substring(0, typedText.length - 1)
                 : currentText.substring(0, typedText.length + 1);
 
             setTypedText(updatedText);
-
             let typeSpeed = isDeleting ? 50 : 100;
 
             if (!isDeleting && updatedText === currentText) {
-                typeSpeed = 2000; // Pause at end
+                typeSpeed = 2000;
                 setIsDeleting(true);
             } else if (isDeleting && updatedText === '') {
                 setIsDeleting(false);
-                setLoopNum(loopNum + 1);
-                typeSpeed = 500; // Pause before retyping
+                typeSpeed = 500;
             }
-
             timeout = setTimeout(handleTyping, typeSpeed);
         };
-
         timeout = setTimeout(handleTyping, 100);
+        const cursorInterval = setInterval(() => setShowCursor(prev => !prev), 500);
+        return () => { clearTimeout(timeout); clearInterval(cursorInterval); };
+    }, [typedText, isDeleting]);
 
-        // Cursor blinking
-        const cursorInterval = setInterval(() => {
-            setShowCursor(prev => !prev);
-        }, 500);
-
-        return () => {
-            clearTimeout(timeout);
-            clearInterval(cursorInterval);
-        };
-    }, [typedText, isDeleting, loopNum]);
-
+    // GSAP for initial entrance
     useEffect(() => {
-        // GSAP animations
         const ctx = gsap.context(() => {
-            // Animate title container
-            gsap.from(titleRef.current, {
+            gsap.from(".terminal-window", {
                 opacity: 0,
-                y: 50,
+                x: -50,
                 duration: 1,
-                ease: 'power3.out'
+                ease: "power3.out"
             });
-
-            // Animate image with rotation
-            gsap.from(imageRef.current, {
+            gsap.from(".image-frame", {
                 opacity: 0,
-                scale: 0.8,
-                rotation: -10,
-                duration: 1.2,
-                ease: 'back.out(1.7)',
-                delay: 0.3
-            });
-
-            // Animate stats cards with stagger
-            gsap.from(statsRef.current, {
-                opacity: 0,
-                scale: 0,
-                duration: 0.6,
-                stagger: 0.2,
-                ease: 'back.out(1.7)',
-                delay: 0.8
+                x: 50,
+                duration: 1,
+                delay: 0.3,
+                ease: "power3.out"
             });
         });
-
         return () => ctx.revert();
     }, []);
 
-    // Framer Motion variants
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2,
-                delayChildren: 0.3
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: 'easeOut' }
-        }
-    };
-
-    const buttonVariants = {
-        hover: {
-            scale: 1.05,
-            transition: { duration: 0.3, ease: 'easeInOut' }
-        },
-        tap: { scale: 0.95 }
-    };
-
     return (
-        <section className="relative overflow-hidden py-12 sm:py-24">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <motion.div
-                        className="relative text-center lg:text-left order-2 lg:order-1"
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                    >
-                        <div ref={titleRef}>
-                            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-[#181411] dark:text-white">
-                                <span className="text-primary">
-                                    {typedText}
-                                    <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100`}>|</span>
-                                </span>
-                            </h1>
-                        </div>
-                        <motion.p
-                            variants={itemVariants}
-                            className="mt-6 text-lg text-[#8a7560] dark:text-gray-400 max-w-lg mx-auto lg:mx-0"
-                        >
-                            Building scalable, robust, and user-centric web applications with the MERN stack.
-                        </motion.p>
+        <section className="relative min-h-screen flex items-center overflow-hidden bg-background-dark py-12 md:py-20 font-mono">
+            
+            {/* --- 1. CODE BACKGROUND LAYER --- */}
+            <div className="absolute inset-0 z-0 opacity-10 pointer-events-none select-none overflow-hidden">
+                <div className="absolute inset-0 flex flex-wrap gap-12 p-10 text-[10px] text-primary leading-loose">
+                    {Array.from({ length: 30 }).map((_, i) => (
                         <motion.div
-                            variants={itemVariants}
-                            className="mt-12 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+                            key={i}
+                            initial={{ y: -100, opacity: 0 }}
+                            animate={{ 
+                                y: [0, 1200], 
+                                opacity: [0, 1, 1, 0] 
+                            }}
+                            transition={{ 
+                                duration: Math.random() * 25 + 15, 
+                                repeat: Infinity, 
+                                ease: "linear",
+                                delay: Math.random() * -25
+                            }}
+                            className="whitespace-nowrap"
                         >
-                            <motion.div
-                                variants={buttonVariants}
-                                whileHover="hover"
-                                whileTap="tap"
-                                className="w-full sm:w-auto"
-                            >
-                                <Link to="https://drive.google.com/file/d/16bs_iLUUnI0LZaicJYXL3WeE_UjF2EUH/view?usp=drive_link" className="bg-primary text-white px-8 py-4 rounded-full flex items-center justify-center text-lg font-medium hover:opacity-90 transition-all shadow-lg hover:shadow-xl w-full">
-                                    Download Resume <span className="material-symbols-outlined ml-2">arrow_forward</span>
-                                </Link>
-                            </motion.div>
-                            <motion.div
-                                variants={buttonVariants}
-                                whileHover="hover"
-                                whileTap="tap"
-                                className="w-full sm:w-auto"
-                            >
-                                <Link to="/contact" className="bg-transparent text-[#181411] dark:text-white px-8 py-4 rounded-full flex items-center justify-center text-lg font-medium border border-[#e6e0db] dark:border-[#3a2d1f] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors w-full">
-                                    Hire Me
-                                </Link>
-                            </motion.div>
+                            {codeSnippets[i % codeSnippets.length]}
                         </motion.div>
-                    </motion.div>
-                    <div className="relative flex justify-center lg:justify-start order-1 lg:order-2">
-                        <div className="relative w-[300px] h-[350px] sm:w-[450px] sm:h-[500px]">
-                            <motion.div
-                                className="absolute inset-0 bg-primary/20 rounded-3xl -rotate-6 backdrop-blur-sm"
-                                initial={{ opacity: 0, rotate: -20 }}
-                                animate={{ 
-                                    opacity: 1, 
-                                    rotate: [-6, -8, -4, -6],
-                                    y: [0, -10, 0]
-                                }}
-                                transition={{ 
-                                    opacity: { duration: 1, ease: 'easeOut' },
-                                    rotate: { 
-                                        duration: 6, 
-                                        repeat: Infinity, 
-                                        ease: 'easeInOut' 
-                                    },
-                                    y: { 
-                                        duration: 4, 
-                                        repeat: Infinity, 
-                                        ease: 'easeInOut' 
-                                    }
-                                }}
-                            />
-                            <motion.img
-                                ref={imageRef}
-                                alt="Portrait of Developer"
-                                className="absolute inset-0 w-full h-full object-cover rounded-3xl shadow-2xl"
-                                src="https://i.ibb.co/t0zjqWY/Untitled-design-8.png"
-                                animate={{ 
-                                    y: [0, -15, 0]
-                                }}
-                                transition={{ 
-                                    duration: 5, 
-                                    repeat: Infinity, 
-                                    ease: 'easeInOut' 
-                                }}
-                                whileHover={{ scale: 1.02 }}
-                            />
-                           
-                            <motion.div
-                                ref={(el) => (statsRef.current[1] = el)}
-                                className="absolute top-1/2 -right-12 -translate-y-1/2 bg-white dark:bg-[#221910] p-4 rounded-lg shadow-lg w-48 border border-[#e6e0db] dark:border-[#3a2d1f] hidden sm:block"
-                                animate={{ 
-                                    x: [0, -8, 0],
-                                    y: [0, 8, 0]
-                                }}
-                                transition={{ 
-                                    duration: 4, 
-                                    repeat: Infinity, 
-                                    ease: 'easeInOut',
-                                    delay: 0.5
-                                }}
-                                whileHover={{ x: -5, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' }}
-                            >
-                                <p className="font-bold text-[#181411] dark:text-white text-sm">"Exceptional code quality and delivery speed."</p>
-                            </motion.div>
+                    ))}
+                </div>
+                {/* Center fade mask */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_var(--color-background-dark)_80%)]" />
+            </div>
+
+            <div className="container mx-auto px-6 relative z-10">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    {/* --- 2. LEFT CONTENT (TERMINAL UI) --- */}
+                    <div className="lg:col-span-7 terminal-window bg-background-light/20 backdrop-blur-xl border border-white/10 p-6 md:p-10 rounded-lg shadow-2xl relative overflow-hidden group">
+                        
+                        {/* Terminal Header */}
+                        <div className="flex items-center gap-2 mb-8 border-b border-white/5 pb-4">
+                            <div className="w-3 h-3 rounded-full bg-red-500/40" />
+                            <div className="w-3 h-3 rounded-full bg-yellow-500/40" />
+                            <div className="w-3 h-3 rounded-full bg-primary/40" />
+                            <span className="ml-4 text-[10px] text-text-muted tracking-widest uppercase">root@developer:~</span>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div className="flex items-center text-primary text-lg">
+                                <span className="mr-3 opacity-50">&gt;</span>
+                                <h2>const profile = "Engineer";</h2>
+                            </div>
                             
+                            <h1 className="text-4xl md:text-7xl font-bold text-text-primary tracking-tighter leading-tight">
+                                {typedText}
+                                <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} inline-block w-4 h-10 md:h-16 bg-primary ml-2 align-middle shadow-[0_0_10px_#00ff41]`} />
+                            </h1>
+
+                            <div className="border-l-2 border-primary/30 pl-6 py-2">
+                                <p className="text-text-muted text-sm md:text-base leading-relaxed max-w-xl">
+                                    // I architect and build robust digital ecosystems using the MERN stack. 
+                                    Focusing on high-performance backends and interactive, responsive frontends.
+                                </p>
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row gap-4 pt-6">
+                                <Link to="https://drive.google.com/file/d/16bs_iLUUnI0LZaicJYXL3WeE_UjF2EUH/view" 
+                                      className="relative group px-8 py-4 bg-primary text-background-dark font-black overflow-hidden transition-all text-center">
+                                    <span className="relative z-10">[ DOWNLOAD_RESUME ]</span>
+                                    <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 opacity-20" />
+                                </Link>
+                                
+                                <Link to="/contact" 
+                                      className="px-8 py-4 border border-primary text-primary font-bold hover:bg-primary/10 transition-all text-center">
+                                    &lt; Hire_Me /&gt;
+                                </Link>
+                            </div>
+                        </div>
+
+                        {/* Language Tags */}
+                        <div className="mt-12 flex flex-wrap gap-4 text-[10px] text-primary/40 uppercase">
+                            <span>#mongodb</span>
+                            <span>#express</span>
+                            <span>#react</span>
+                            <span>#node</span>
+                            <span>#gsap</span>
+                        </div>
+                    </div>
+
+                    {/* --- 3. RIGHT CONTENT (TECH IMAGE) --- */}
+                    <div className="lg:col-span-5 flex justify-center lg:justify-end">
+                        <div className="relative group image-frame">
+                            
+                            {/* Outer Glow & Corners */}
+                            <div className="absolute -inset-4 border border-primary/10 rounded-lg pointer-events-none" />
+                            <div className="absolute -top-2 -right-2 w-16 h-16 border-t-2 border-r-2 border-primary z-20" />
+                            <div className="absolute -bottom-2 -left-2 w-16 h-16 border-b-2 border-l-2 border-primary z-20" />
+                            
+                            {/* Main Image Container */}
+                            <div className="relative w-72 h-[420px] md:w-80 md:h-[500px] bg-background-light overflow-hidden border border-white/10 shadow-2xl">
+                                
+                                {/* Scanner Line */}
+                                <motion.div 
+                                    className="absolute left-0 right-0 h-[2px] bg-primary z-30 shadow-[0_0_15px_#00ff41]"
+                                    animate={{ top: ['0%', '100%', '0%'] }}
+                                    transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                                />
+
+                                {/* Subtle Overlay Lines */}
+                                <div className="absolute inset-0 z-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_4px,3px_100%] pointer-events-none" />
+
+                                <img 
+                                    ref={imageRef}
+                                    src="https://i.ibb.co/8gbhygq0/IMG-0644.jpg" 
+                                    alt="Developer Portrait"
+                                    className="w-full h-full object-cover grayscale brightness-75 contrast-125 group-hover:grayscale-0 group-hover:scale-110 group-hover:brightness-100 transition-all duration-1000 ease-in-out"
+                                />
+
+                                {/* Bottom Image Badge */}
+                                <div className="absolute bottom-0 left-0 right-0 bg-background-dark/80 backdrop-blur-md p-4 border-t border-primary/30 z-20 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                                    <div className="flex justify-between items-center text-[10px]">
+                                        <span className="text-primary tracking-widest">ENCRYPTION: AES-256</span>
+                                        <span className="text-white/40">v.2.0.24</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Experience Circular Badge */}
+                            <motion.div 
+                                className="absolute -left-12 top-10 w-24 h-24 hidden md:block z-30"
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                            >
+                                <div className="w-full h-full border border-dashed border-primary/40 rounded-full flex items-center justify-center">
+                                    <span className="text-[8px] text-primary font-bold text-center leading-tight">
+                                        FULLSTACK<br/>ENGINEER<br/>2024
+                                    </span>
+                                </div>
+                            </motion.div>
+
+                            {/* Profile Status Badge */}
+                            <div className="absolute -right-10 bottom-20 bg-background-dark border border-primary/40 p-3 hidden md:block z-30">
+                                <div className="flex flex-col gap-1 font-mono text-[9px]">
+                                    <span className="text-primary flex items-center gap-2">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                                        LIVE_SESSION
+                                    </span>
+                                    <span className="text-text-muted">LOC: DHAKA_BD</span>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

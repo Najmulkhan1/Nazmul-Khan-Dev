@@ -3,9 +3,11 @@ const Contact = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col w-full py-16 sm:py-24">
             <div className="flex flex-wrap justify-center text-center gap-3 p-4">
                 <div className="flex w-full flex-col gap-4 items-center">
-                    <p className="text-[#181411] dark:text-white text-4xl sm:text-5xl font-black leading-tight tracking-[-0.033em]">Get in Touch</p>
-                    <p className="text-[#8a7560] dark:text-[#a18a72] text-base sm:text-lg font-normal leading-normal max-w-xl">
-                        Feel free to reach out for collaborations or just a friendly hello. I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision.
+                    <p className="text-text-primary text-4xl sm:text-5xl font-black leading-tight tracking-[-0.033em]">
+                        <span className="text-primary">&gt;</span> Get in Touch_
+                    </p>
+                    <p className="text-text-muted text-base sm:text-lg font-normal leading-normal max-w-xl font-mono">
+                        // Feel free to reach out for collaborations or just a friendly hello.
                     </p>
                 </div>
             </div>
@@ -15,36 +17,59 @@ const Contact = () => {
                     <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <label className="flex flex-col w-full">
-                                <p className="text-[#181411] dark:text-white text-base font-medium leading-normal pb-2">Name</p>
-                                <input className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#181411] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#e6e0db] dark:border-[#3a2d1f] bg-white dark:bg-[#181411] h-14 placeholder:text-[#8a7560] dark:placeholder:text-[#a18a72] p-[15px] text-base font-normal leading-normal transition-shadow" placeholder="Enter your name" type="text" />
+                                <p className="text-text-primary text-base font-medium leading-normal pb-2 font-mono">var Name =</p>
+                                <input className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-text-primary focus:outline-0 focus:border-primary border border-primary/30 bg-background-light h-14 placeholder:text-text-muted p-[15px] text-base font-normal leading-normal transition-shadow font-mono" placeholder='"Enter your name"' type="text" />
                             </label>
                             <label className="flex flex-col w-full">
-                                <p className="text-[#181411] dark:text-white text-base font-medium leading-normal pb-2">Email Address</p>
-                                <input className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#181411] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#e6e0db] dark:border-[#3a2d1f] bg-white dark:bg-[#181411] h-14 placeholder:text-[#8a7560] dark:placeholder:text-[#a18a72] p-[15px] text-base font-normal leading-normal transition-shadow" placeholder="Enter your email" type="email" />
+                                <p className="text-text-primary text-base font-medium leading-normal pb-2 font-mono">var Email =</p>
+                                <input className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-text-primary focus:outline-0 focus:border-primary border border-primary/30 bg-background-light h-14 placeholder:text-text-muted p-[15px] text-base font-normal leading-normal transition-shadow font-mono" placeholder='"Enter your email"' type="email" />
                             </label>
                         </div>
                         <label className="flex flex-col w-full">
-                            <p className="text-[#181411] dark:text-white text-base font-medium leading-normal pb-2">Message</p>
-                            <textarea className="form-input flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-[#181411] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#e6e0db] dark:border-[#3a2d1f] bg-white dark:bg-[#181411] min-h-36 placeholder:text-[#8a7560] dark:placeholder:text-[#a18a72] p-[15px] text-base font-normal leading-normal transition-shadow" placeholder="Your message here..."></textarea>
+                            <p className="text-text-primary text-base font-medium leading-normal pb-2 font-mono">var Message =</p>
+                            <textarea className="form-input flex w-full min-w-0 flex-1 resize-y overflow-hidden text-text-primary focus:outline-0 focus:border-primary border border-primary/30 bg-background-light min-h-36 placeholder:text-text-muted p-[15px] text-base font-normal leading-normal transition-shadow font-mono" placeholder='"Your message here..."'></textarea>
                         </label>
-                        <button className="flex min-w-[84px] max-w-[480px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary text-[#181411] text-base font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-opacity">
-                            <span className="truncate">Send Message</span>
+                        <button className="flex min-w-[84px] max-w-[480px] w-full cursor-pointer items-center justify-center overflow-hidden h-12 px-4 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-opacity font-mono">
+                            <span className="truncate">console.log(submit)</span>
                         </button>
                     </form>
                 </div>
 
-                <div className="flex flex-col p-6 sm:p-8 rounded-xl border border-solid border-[#e6e0db] dark:border-[#3a2d1f] bg-background-light dark:bg-[#221910]">
-                    <h3 className="text-[#181411] dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em] mb-6">Contact Details</h3>
+                <div className="flex flex-col p-6 sm:p-8 border border-primary/30 bg-background-light shadow-[4px_4px_0px_0px_rgba(0,255,65,0.2)]">
+                    <h3 className="text-text-primary text-2xl font-bold leading-tight tracking-[-0.015em] mb-6 font-mono">./ContactDetails</h3>
                     <div className="flex flex-col gap-6">
                         <div className="flex items-start gap-4">
                             <div className="flex-shrink-0 size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
                                 <span className="material-symbols-outlined">mail</span>
                             </div>
                             <div>
-                                <p className="text-[#181411] dark:text-white text-base font-bold">Email</p>
-                                <a className="text-[#8a7560] dark:text-[#a18a72] text-base font-medium hover:text-primary dark:hover:text-primary transition-colors" href="mailto:najmulislam624@gmail.com">najmulislam624@gmail.com</a>
+                                <p className="text-text-primary text-base font-bold font-mono">Email</p>
+                                <a className="text-text-muted text-base font-medium hover:text-primary transition-colors font-mono" href="mailto:najmulislam624@gmail.com">najmulislam624@gmail.com</a>
                             </div>
                         </div>
+
+                        <div className="flex items-start gap-4">
+                            <div className="flex-shrink-0 size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                <span className="material-symbols-outlined">call</span>
+                            </div>
+                            <div>
+                                <p className="text-text-primary text-base font-bold font-mono">Phone</p>
+                                <a className="text-text-muted text-base font-medium hover:text-primary transition-colors font-mono" href="tel:+8801XXXXXXXXX">+880 1XXX-XXXXXX</a>
+                            </div>
+                        </div>
+
+                        <div className="flex items-start gap-4">
+                            <div className="flex-shrink-0 size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                <span className="material-symbols-outlined">chat</span>
+                            </div>
+                            <div>
+                                <p className="text-text-primary text-base font-bold font-mono">WhatsApp</p>
+                                <a className="text-text-muted text-base font-medium hover:text-primary transition-colors font-mono" href="https://wa.me/8801XXXXXXXXX" target="_blank" rel="noopener noreferrer">
+                                    +880 1XXX-XXXXXX
+                                </a>
+                            </div>
+                        </div>
+
                         <div className="flex items-start gap-4">
                             <div className="flex-shrink-0 size-10 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
                                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -52,8 +77,8 @@ const Contact = () => {
                                 </svg>
                             </div>
                             <div>
-                                <p className="text-[#181411] dark:text-white text-base font-bold">LinkedIn</p>
-                                <a className="text-[#8a7560] dark:text-[#a18a72] text-base font-medium hover:text-primary dark:hover:text-primary transition-colors" href="https://www.linkedin.com/in/nazmul-khan-mukit/" rel="noopener noreferrer" target="_blank">linkedin.com/in/nazmul-khan-mukit/</a>
+                                <p className="text-text-primary text-base font-bold font-mono">LinkedIn</p>
+                                <a className="text-text-muted text-base font-medium hover:text-primary transition-colors font-mono" href="https://www.linkedin.com/in/nazmul-khan-mukit/" rel="noopener noreferrer" target="_blank">linkedin.com/in/nazmul-khan-mukit/</a>
                             </div>
                         </div>
                         <div className="flex items-start gap-4">
@@ -63,8 +88,8 @@ const Contact = () => {
                                 </svg>
                             </div>
                             <div>
-                                <p className="text-[#181411] dark:text-white text-base font-bold">GitHub</p>
-                                <a className="text-[#8a7560] dark:text-[#a18a72] text-base font-medium hover:text-primary dark:hover:text-primary transition-colors" href="https://github.com/Najmulkhan1" rel="noopener noreferrer" target="_blank">github.com/Najmulkhan1</a>
+                                <p className="text-text-primary text-base font-bold font-mono">GitHub</p>
+                                <a className="text-text-muted text-base font-medium hover:text-primary transition-colors font-mono" href="https://github.com/Najmulkhan1" rel="noopener noreferrer" target="_blank">github.com/Najmulkhan1</a>
                             </div>
                         </div>
                     </div>

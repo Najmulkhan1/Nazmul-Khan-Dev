@@ -9,13 +9,17 @@ export default {
     theme: {
         extend: {
             colors: {
-                "primary": "#f27f0d",
-                "background-light": "#f8f7f5",
-                "background-dark": "#221910",
+                "primary": "#00ff41", // Matrix Green / Neon Green
+                "secondary": "#003b00", // Dark Green for backgrounds
+                "accent": "#008F11", // Standard Green
+                "background-light": "#0d1117", // GitHub Dark Dimmed / Terminal Black
+                "background-dark": "#000000", // Pure Black
+                "text-primary": "#e6edf3",
+                "text-muted": "#8b949e",
             },
             fontFamily: {
-                "display": ["Manrope", "sans-serif"],
-                "body": ["Manrope", "sans-serif"],
+                "display": ["'Fira Code'", "'Courier New'", "monospace"],
+                "body": ["'Fira Code'", "'Courier New'", "monospace"],
             },
         },
     },
