@@ -1,7 +1,11 @@
-import ProjectCard from '../components/ProjectCard';
-import { projects } from '../data/projects';
+import ProjectCard from '../../components/ProjectCard';
+import dbConnect from '@/lib/mongodb';
+import Project from '@/models/Project';
 
-const Projects = () => {
+export default async function Projects() {
+    await dbConnect();
+    const projects = await Project.find().sort({ createdAt: -1 }).lean();
+
     return (
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col flex-1 w-full">
             <section className="py-12">
@@ -11,13 +15,11 @@ const Projects = () => {
             </section>
             <section>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
-                    {projects.map((project, index) => (
-                        <ProjectCard key={project.id} {...project} tags={project.technologies.slice(0, 3)} />
+                    {projects.map((project) => (
+                        <ProjectCard key={project._id.toString()} {...project} id={project.id} tags={project.technologies?.slice(0, 3) || []} />
                     ))}
                 </div>
             </section>
         </div>
     );
-};
-
-export default Projects;
+}

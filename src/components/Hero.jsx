@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+'use client';
+
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
@@ -136,13 +138,13 @@ const Hero = () => {
                             </div>
 
                             <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                                <Link to="https://drive.google.com/file/d/16bs_iLUUnI0LZaicJYXL3WeE_UjF2EUH/view" 
+                                <Link href="https://drive.google.com/file/d/16bs_iLUUnI0LZaicJYXL3WeE_UjF2EUH/view" 
                                       className="relative group px-8 py-4 bg-primary text-background-dark font-black overflow-hidden transition-all text-center">
                                     <span className="relative z-10">[ DOWNLOAD_RESUME ]</span>
                                     <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 opacity-20" />
                                 </Link>
                                 
-                                <Link to="/contact" 
+                                <Link href="/contact" 
                                       className="px-8 py-4 border border-primary text-primary font-bold hover:bg-primary/10 transition-all text-center">
                                     &lt; Hire_Me /&gt;
                                 </Link>

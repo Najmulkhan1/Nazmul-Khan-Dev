@@ -1,8 +1,8 @@
 import Hero from '../components/Hero';
-import Projects from './Projects';
-import Skills from './Skills';
-import About from './About';
-import Contact from './Contact';
+import Projects from './projects/page';
+import Skills from './skills/page';
+import About from './about/page';
+import Contact from './contact/page';
 
 const Home = () => {
     return (

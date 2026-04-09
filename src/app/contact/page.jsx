@@ -1,3 +1,5 @@
+'use client';
+
 const Contact = () => {
     return (
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col w-full py-16 sm:py-24">
