@@ -1,5 +1,7 @@
-import Link from 'next/link';
-import { ShieldCheck, LayoutDashboard, LogOut, ArrowLeft, ExternalLink, Database } from 'lucide-react';
+import dbConnect from '@/lib/mongodb';
+import Message from '@/models/Message';
+import AdminNav from '@/components/AdminNav';
+import { ShieldCheck } from 'lucide-react';
 
 export const metadata = {
   title: 'Admin Dashboard | Nazmul Khan',
@@ -7,7 +9,15 @@ export const metadata = {
 
 export const dynamic = 'force-dynamic';
 
-export default function AdminLayout({ children }) {
+export default async function AdminLayout({ children }) {
+  let unreadCount = 0;
+  try {
+    await dbConnect();
+    unreadCount = await Message.countDocuments({ read: false });
+  } catch (err) {
+    console.error('Error fetching unread messages count in AdminLayout:', err);
+  }
+
   return (
     <div className="py-8 sm:py-12 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="rounded-3xl border border-white/10 bg-[#0c0c0e]/90 p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-6">
@@ -28,37 +38,13 @@ export default function AdminLayout({ children }) {
                 </span>
               </div>
               <p className="text-xs text-zinc-400">
-                Manage your portfolio case studies, projects & dynamic content
+                Manage your portfolio case studies, projects & direct client transmissions
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
-            <Link
-              href="/"
-              target="_blank"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-medium text-zinc-300 bg-white/[0.04] border border-white/10 hover:border-white/20 hover:text-white transition-all"
-            >
-              <span>View Site</span>
-              <ExternalLink className="w-3.5 h-3.5 text-zinc-400" />
-            </Link>
-
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-medium text-black bg-primary hover:bg-primary-light font-bold transition-all shadow-[0_0_15px_rgba(204,255,0,0.2)]"
-            >
-              <LayoutDashboard className="w-3.5 h-3.5" />
-              <span>Projects</span>
-            </Link>
-
-            <a
-              href="/api/auth/signout"
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium text-red-400 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 transition-all"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>Sign Out</span>
-            </a>
-          </div>
+          {/* Navigation Controls */}
+          <AdminNav unreadCount={unreadCount} />
         </header>
 
         {/* Main Content Area */}

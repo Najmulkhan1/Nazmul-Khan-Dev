@@ -1,13 +1,23 @@
 import Link from 'next/link';
-import Hero from '../components/Hero';
-import EngineeringPhilosophy from '../components/EngineeringPhilosophy';
-import Services from '../components/Services';
-import ExperienceTimeline from '../components/ExperienceTimeline';
-import ProjectCard from '../components/ProjectCard';
 import dbConnect from '@/lib/mongodb';
 import Project from '@/models/Project';
 import { fallbackProjects } from './projects/page';
-import { ArrowRight, ArrowUpRight, Sparkles, Layers, Terminal } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Layers } from 'lucide-react';
+
+// Components
+import Hero from '@/components/Hero';
+import ImpactMetrics from '@/components/ImpactMetrics';
+import EngineeringPhilosophy from '@/components/EngineeringPhilosophy';
+import ProjectCard from '@/components/ProjectCard';
+import Services from '@/components/Services';
+import SkillsSection from '@/components/SkillsSection';
+import EngineeringWorkflow from '@/components/EngineeringWorkflow';
+import ExperienceTimeline from '@/components/ExperienceTimeline';
+import AboutSection from '@/components/AboutSection';
+import Testimonials from '@/components/Testimonials';
+import ContactSection from '@/components/ContactSection';
+
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   let dbProjects = [];
@@ -41,14 +51,17 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col w-full">
-      {/* 1. Hero Section */}
+      {/* 1. Hero Section (Interactive Dev Workbench & Terminal) */}
       <Hero />
 
-      {/* 2. Engineering Philosophy */}
+      {/* 2. Impact Proof & Core Tech Bar */}
+      <ImpactMetrics />
+
+      {/* 3. Engineering Philosophy (How I Think) */}
       <EngineeringPhilosophy />
 
-      {/* 3. Featured Engineering Works (Teaser Section) */}
-      <section className="w-full py-24 sm:py-32 border-t border-white/5">
+      {/* 4. Selected Portfolio (3 Featured Systems Controlled by Admin) */}
+      <section id="projects" className="w-full py-24 sm:py-32 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
             <div>
@@ -108,54 +121,26 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 4. Core Engineering Services */}
+      {/* 5. Core Services (What I Build) */}
       <Services />
 
-      {/* 5. Career & Experience Timeline */}
+      {/* 6. Technical Arsenal & Capabilities (Tools I Build With) */}
+      <SkillsSection isStandalone={false} />
+
+      {/* 7. Engineering Workflow (Production Lifecycle) */}
+      <EngineeringWorkflow />
+
+      {/* 8. Career & Experience Trajectory */}
       <ExperienceTimeline />
 
-      {/* 6. High-Impact Connect & Collaborate Banner */}
-      <section className="w-full py-24 sm:py-32 border-t border-white/5 relative overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-        
-        <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10">
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.03] via-black/40 to-transparent p-8 sm:p-14 md:p-16 backdrop-blur-xl">
-            <div className="max-w-3xl space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-mono text-primary">
-                <Terminal className="w-3.5 h-3.5" />
-                <span>Available for New Opportunities & Contract Roles</span>
-              </div>
+      {/* 9. About The Engineer (The Engine Behind The Code) */}
+      <AboutSection isStandalone={false} />
 
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold text-white tracking-tight leading-[1.1]">
-                Let&apos;s Build Systems That Scale.
-              </h2>
+      {/* 10. Client & Peer Feedback (Endorsements) */}
+      <Testimonials />
 
-              <p className="text-base sm:text-lg text-zinc-400 leading-relaxed font-sans max-w-2xl">
-                Whether you need an architect for a new SaaS product, a high-throughput backend API, or a responsive full-stack platform, I am ready to deliver clean, production-grade code.
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4 pt-4">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-3 px-8 py-4 bg-primary text-black font-sans text-xs font-bold uppercase tracking-wider hover:bg-primary-light transition-all shadow-[0_0_25px_rgba(204,255,0,0.35)]"
-                >
-                  <span>Initiate Discussion</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-
-                <Link
-                  href="/about"
-                  className="inline-flex items-center gap-2.5 px-6 py-4 border border-white/15 bg-white/[0.02] text-white text-xs font-bold uppercase tracking-wider hover:bg-white/10 hover:border-white/30 transition-all"
-                >
-                  <span>Read Full Bio & Journey</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 11. Direct Connection & Message Form (Connected to DB & Admin) */}
+      <ContactSection isStandalone={false} />
     </div>
   );
 }
-

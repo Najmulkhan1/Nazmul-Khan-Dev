@@ -2,6 +2,7 @@
 
 import dbConnect from '@/lib/mongodb';
 import Project from '@/models/Project';
+import Message from '@/models/Message';
 import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
 
@@ -138,5 +139,87 @@ export async function toggleFeaturedProject(id) {
   revalidatePath('/admin');
   revalidatePath('/projects');
   return { success: true, featured: project.featured };
+}
+
+export async function submitContactMessage(formData) {
+  try {
+    const name = formData.get('name')?.toString().trim();
+    const email = formData.get('email')?.toString().trim();
+    const subject = formData.get('subject')?.toString().trim() || 'Project Inquiry';
+    const message = formData.get('message')?.toString().trim();
+
+    if (!name || !email || !message) {
+      return { success: false, error: 'Please provide your name, email, and message.' };
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return { success: false, error: 'Please enter a valid email address.' };
+    }
+
+    await dbConnect();
+
+    const created = await Message.create({
+      name,
+      email,
+      subject,
+      message,
+      read: false,
+    });
+
+    revalidatePath('/admin');
+    revalidatePath('/admin/messages');
+
+    return { 
+      success: true, 
+      id: created._id.toString(),
+      message: 'Transmission successfully sent!' 
+    };
+  } catch (error) {
+    console.error('Error in submitContactMessage:', error);
+    return { success: false, error: error.message || 'Failed to submit message.' };
+  }
+}
+
+export async function deleteMessage(id) {
+  const session = await auth();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  await dbConnect();
+  await Message.findByIdAndDelete(id);
+
+  revalidatePath('/admin');
+  revalidatePath('/admin/messages');
+  return { success: true };
+}
+
+export async function markMessageAsRead(id, readStatus = true) {
+  const session = await auth();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  await dbConnect();
+  await Message.findByIdAndUpdate(id, { read: readStatus });
+
+  revalidatePath('/admin');
+  revalidatePath('/admin/messages');
+  return { success: true };
+}
+
+export async function markAllMessagesAsRead() {
+  const session = await auth();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  await dbConnect();
+  await Message.updateMany({ read: false }, { $set: { read: true } });
+
+  revalidatePath('/admin');
+  revalidatePath('/admin/messages');
+  return { success: true };
 }
 
