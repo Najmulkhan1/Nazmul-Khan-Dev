@@ -1,6 +1,10 @@
+import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' });
 
 export const metadata = {
   title: 'Nazmul Khan | Full Stack Engineer & MERN Specialist',
@@ -16,20 +20,20 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark scroll-smooth">
-      <body className="relative min-h-screen flex flex-col bg-background-dark text-text-primary overflow-x-hidden antialiased selection:bg-primary/20 selection:text-primary-light">
-        {/* Subtle Ambient Background Gradients */}
+    <html lang="en" className={`dark scroll-smooth ${inter.variable} ${spaceGrotesk.variable}`}>
+      <body className="relative min-h-screen flex flex-col bg-background-dark text-text-primary overflow-x-hidden antialiased selection:bg-primary/20 selection:text-primary">
+        
+        {/* Subtle Ambient Background */}
         <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-          <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-primary/15 via-cyan-accent/10 to-transparent blur-3xl opacity-70" />
-          <div className="absolute top-[30%] -left-40 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[140px] opacity-40" />
-          <div className="absolute top-[60%] -right-40 w-[600px] h-[600px] bg-cyan-accent/10 rounded-full blur-[140px] opacity-30" />
+          <div className="bg-noise" />
           <div className="absolute inset-0 bg-grid-pattern opacity-40" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/5 blur-[120px] rounded-full opacity-30" />
         </div>
 
         {/* Foreground Content */}
         <div className="relative z-10 flex flex-col min-h-screen">
           <Navbar />
-          <main className="flex-1 flex flex-col w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <main className="flex-1 flex flex-col w-full">
             {children}
           </main>
           <Footer />

@@ -1,36 +1,35 @@
 import ProjectCard from '../../components/ProjectCard';
 import dbConnect from '@/lib/mongodb';
 import Project from '@/models/Project';
-import { Sparkles, FolderGit2 } from 'lucide-react';
 
 export const fallbackProjects = [
   {
     id: 'omni-store-ecommerce',
-    title: 'OmniStore - Full-Stack MERN E-Commerce',
+    title: 'OmniStore - Full-Stack E-Commerce',
     description: 'A production-grade e-commerce application with product catalog, cart persistence, Stripe checkout integration, order tracking, and an administrative dashboard.',
     images: ['https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=800&auto=format&fit=crop'],
     videos: [],
-    tags: ['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind', 'Stripe'],
+    tags: ['React', 'Node.js', 'Express', 'MongoDB', 'Stripe'],
     liveLink: 'https://github.com/Najmulkhan1',
     githubLink: 'https://github.com/Najmulkhan1',
   },
   {
     id: 'task-flow-management',
-    title: 'TaskFlow - Realtime Agile Project Hub',
+    title: 'TaskFlow - Agile Hub',
     description: 'Collaborative Kanban project management suite featuring realtime socket updates, role-based access control, task assignments, and activity audit logs.',
     images: ['https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?q=80&w=800&auto=format&fit=crop'],
     videos: [],
-    tags: ['Next.js 15', 'TypeScript', 'Node.js', 'Socket.io', 'MongoDB'],
+    tags: ['Next.js 15', 'Socket.io', 'MongoDB'],
     liveLink: 'https://github.com/Najmulkhan1',
     githubLink: 'https://github.com/Najmulkhan1',
   },
   {
     id: 'dev-lens-analytics',
-    title: 'DevLens - Developer Performance Dashboard',
+    title: 'DevLens - Analytics',
     description: 'Data analytics platform providing actionable insights into API latencies, server resource metrics, and GitHub repository activity with interactive charts.',
     images: ['https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop'],
     videos: [],
-    tags: ['Next.js', 'TailwindCSS', 'Recharts', 'MongoDB', 'REST API'],
+    tags: ['Next.js', 'TailwindCSS', 'Recharts'],
     liveLink: 'https://github.com/Najmulkhan1',
     githubLink: 'https://github.com/Najmulkhan1',
   }
@@ -63,30 +62,37 @@ export default async function Projects() {
     : fallbackProjects;
 
   return (
-    <div className="w-full py-16 sm:py-24">
-      {/* Section Header */}
-      <div className="flex flex-col items-start gap-4 mb-14">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel border border-primary/30 text-xs font-semibold text-primary">
-          <FolderGit2 className="w-3.5 h-3.5" />
-          <span>Featured Engineering</span>
+    <div id="projects" className="w-full py-24 sm:py-32 border-t border-white/5">
+      <div className="max-w-7xl mx-auto px-6 md:px-10">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="w-8 h-[1px] bg-primary"></span>
+              <span className="text-xs font-sans uppercase tracking-widest text-primary">Selected Works</span>
+            </div>
+            <h2 className="text-4xl md:text-6xl font-display font-bold text-white tracking-tight uppercase">
+              Featured <br /> Engineering.
+            </h2>
+          </div>
+          <div className="max-w-md border-l border-white/10 pl-6">
+            <p className="text-sm font-sans text-text-muted leading-relaxed">
+              A showcase of full-stack web applications, scalable backend APIs, and responsive frontends engineered with modern industry practices.
+            </p>
+          </div>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-text-primary">
-          Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-accent">Projects</span>
-        </h2>
-        <p className="text-text-muted text-base sm:text-lg max-w-2xl leading-relaxed">
-          A showcase of full-stack web applications, scalable backend APIs, and responsive frontends engineered with modern industry practices.
-        </p>
-      </div>
 
-      {/* Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {displayProjects.map((project) => (
-          <ProjectCard
-            key={project.id}
-            {...project}
-            tags={project.tags?.slice(0, 4) || []}
-          />
-        ))}
+        {/* Projects Stack */}
+        <div className="flex flex-col gap-24">
+          {displayProjects.map((project, index) => (
+            <ProjectCard
+              key={project.id}
+              {...project}
+              tags={project.tags?.slice(0, 4) || []}
+              index={index}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

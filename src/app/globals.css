@@ -1,31 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 222 47% 4%;
-    --foreground: 210 40% 98%;
-    --card: 222 47% 7%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 7%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 158 84% 40%;
-    --primary-foreground: 222 47% 4%;
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 187 92% 43%;
-    --accent-foreground: 210 40% 98%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 96%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 96%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 75 100% 50%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 63%;
+    --accent: 75 100% 50%;
+    --accent-foreground: 0 0% 4%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 18%;
-    --input: 217 33% 18%;
-    --ring: 158 84% 40%;
-    --radius: 0.75rem;
+    --destructive-foreground: 0 0% 96%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 75 100% 50%;
+    --radius: 0.5rem;
   }
 
   * {
@@ -38,55 +36,66 @@
   }
 
   body {
-    @apply bg-background-dark text-text-primary font-sans antialiased selection:bg-primary/30 selection:text-primary-light;
+    @apply bg-background-dark text-text-primary font-sans antialiased selection:bg-primary/30 selection:text-primary;
     min-height: 100vh;
     overflow-x: hidden;
   }
 
-  /* Custom Modern Scrollbar */
+  /* Custom Minimal Scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #070a13;
+    background: #0A0A0A;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(16, 185, 129, 0.25);
+    background: #27272a;
     border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(16, 185, 129, 0.6);
+    background: #3f3f46;
   }
 }
 
-/* Glassmorphic card surface */
-.glass-panel {
-  background: rgba(13, 21, 39, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }
 
-.glass-panel:hover {
-  border-color: rgba(16, 185, 129, 0.35);
+/* Subtle Editorial Card */
+.editorial-card {
+  background: rgba(18, 18, 18, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: border-color 0.3s ease;
 }
 
-/* Cyber ambient glow */
-.emerald-glow {
-  box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.25);
+.editorial-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
-.cyan-glow {
-  box-shadow: 0 0 35px -5px rgba(6, 182, 212, 0.25);
+/* Very subtle lime glow */
+.primary-glow {
+  box-shadow: 0 0 40px -10px rgba(204, 255, 0, 0.15);
 }
 
-/* Subtle grid pattern background */
+/* Cinematic Grid Pattern */
 .bg-grid-pattern {
-  background-size: 40px 40px;
+  background-size: 60px 60px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+/* Noise Texture */
+.bg-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }

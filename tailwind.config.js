@@ -19,25 +19,20 @@ module.exports = {
     extend: {
       colors: {
         "primary": {
-          DEFAULT: "#10b981", // Emerald 500
-          neon: "#00ff66",
-          dark: "#047857",
-          light: "#34d399",
+          DEFAULT: "#ccff00", // Electric Lime / Neon Green
+          dark: "#a3e635",
+          light: "#d9f99d",
         },
-        "cyan-accent": {
-          DEFAULT: "#06b6d4",
-          light: "#38bdf8",
-        },
-        "background-dark": "#070a13",
-        "background-card": "#0d1527",
-        "background-light": "#111b33",
-        "text-primary": "#f8fafc",
-        "text-muted": "#94a3b8",
-        border: "hsl(var(--border))",
+        "background-dark": "#0A0A0A",
+        "background-card": "#121212",
+        "background-light": "#1A1A1A",
+        "text-primary": "#F5F5F5",
+        "text-muted": "#A1A1AA",
+        border: "rgba(255, 255, 255, 0.10)",
         input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        ring: "#ccff00",
+        background: "#0A0A0A",
+        foreground: "#F5F5F5",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -45,9 +40,9 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["'Inter'", "-apple-system", "BlinkMacSystemFont", "'Segoe UI'", "Roboto", "sans-serif"],
-        display: ["'Inter'", "sans-serif"],
-        mono: ["'Fira Code'", "'Courier New'", "monospace"],
+        sans: ["var(--font-inter)", "Inter", "sans-serif"],
+        display: ["var(--font-space-grotesk)", "Space Grotesk", "sans-serif"],
+        mono: ["'Fira Code'", "monospace"],
       },
       keyframes: {
         "accordion-down": {
@@ -59,8 +54,8 @@ module.exports = {
           to: { height: "0" },
         },
         "pulse-glow": {
-          "0%, 100%": { opacity: 0.4, transform: "scale(1)" },
-          "50%": { opacity: 0.8, transform: "scale(1.05)" },
+          "0%, 100%": { opacity: 0.2, transform: "scale(1)" },
+          "50%": { opacity: 0.5, transform: "scale(1.05)" },
         }
       },
       animation: {

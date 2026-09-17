@@ -1,268 +1,146 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  ArrowRight, 
-  Download, 
-  Sparkles, 
-  Layers, 
-  Database, 
-  Code2, 
-  CheckCircle2, 
-  MapPin, 
-  Briefcase 
-} from 'lucide-react';
-
-const roles = [
-  'Full Stack Software Engineer',
-  'MERN Stack Specialist',
-  'Next.js & React Architect',
-  'Scalable Backend Developer'
-];
-
-const stats = [
-  { label: 'Years Experience', value: '3+' },
-  { label: 'Completed Projects', value: '15+' },
-  { label: 'Core Stack Mastery', value: '100%' },
-  { label: 'Client Satisfaction', value: '99%' },
-];
+import { ArrowDownRight } from 'lucide-react';
 
 const Hero = () => {
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [currentText, setCurrentText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  // Typewriter effect for rotating roles
-  useEffect(() => {
-    const targetRole = roles[roleIndex];
-    const typingSpeed = isDeleting ? 40 : 80;
-
-    const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        if (currentText.length < targetRole.length) {
-          setCurrentText(targetRole.slice(0, currentText.length + 1));
-        } else {
-          // Pause when word is finished typing
-          setTimeout(() => setIsDeleting(true), 2000);
-        }
-      } else {
-        if (currentText.length > 0) {
-          setCurrentText(targetRole.slice(0, currentText.length - 1));
-        } else {
-          setIsDeleting(false);
-          setRoleIndex((prev) => (prev + 1) % roles.length);
-        }
+  // Stagger animation container
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
       }
-    }, typingSpeed);
+    }
+  };
 
-    return () => clearTimeout(timeout);
-  }, [currentText, isDeleting, roleIndex]);
+  const item = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+  };
 
   return (
-    <section className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center py-12 lg:py-20 overflow-hidden">
-      <div className="w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
-          {/* Left Column: Bio & Calls to Action */}
-          <div className="lg:col-span-7 flex flex-col items-start space-y-6">
-            
-            {/* Pill Tag */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel border border-primary/30 text-xs font-medium text-primary shadow-[0_0_20px_-5px_rgba(16,185,129,0.3)]"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-primary-light animate-pulse" />
-              <span>Full-Stack Engineering & System Design</span>
-            </motion.div>
+    <section className="relative min-h-[95vh] flex flex-col justify-center pt-24 pb-12 overflow-hidden border-b border-white/5">
+      
+      <div className="w-full max-w-7xl mx-auto px-6 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-center z-10">
+        
+        {/* Left: Typography & CTAs */}
+        <motion.div 
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="lg:col-span-7 flex flex-col items-start"
+        >
+          <motion.div variants={item} className="mb-8 flex items-center gap-4">
+            <span className="w-12 h-[1px] bg-primary"></span>
+            <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-text-muted">Digital Engineer / Product Builder</span>
+          </motion.div>
 
-            {/* Main Headline */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="space-y-2"
+          <motion.h1 variants={item} className="font-display text-6xl sm:text-8xl xl:text-[110px] font-bold text-white leading-[0.9] tracking-tighter mb-10 uppercase">
+            Nazmul <br/>
+            Khan<span className="text-primary">.</span>
+          </motion.h1>
+
+          <motion.p variants={item} className="font-sans text-base sm:text-lg text-text-muted max-w-lg leading-relaxed mb-12">
+            A full-stack software engineer architecting modern digital products, scalable web applications, and premium interactive experiences.
+          </motion.p>
+
+          <motion.div variants={item} className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto mb-20">
+            <Link
+              href="/#projects"
+              className="group w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-white text-black text-xs font-bold uppercase tracking-widest hover:bg-primary transition-colors duration-300"
             >
-              <h1 className="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-text-primary leading-[1.1]">
-                Hi, I&apos;m <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-emerald-400 to-cyan-400">Nazmul Khan</span>
-              </h1>
+              Selected Works
+              <ArrowDownRight className="w-4 h-4 group-hover:-rotate-45 transition-transform duration-300" />
+            </Link>
+
+            <Link
+              href="/#contact"
+              className="group w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 border border-white/20 text-white text-xs font-bold uppercase tracking-widest hover:border-white transition-colors duration-300"
+            >
+              Initiate Contact
+            </Link>
+          </motion.div>
+
+          <motion.div variants={item} className="grid grid-cols-2 gap-x-16 gap-y-6 pt-8 border-t border-white/10 w-full sm:w-auto">
+            <div>
+              <p className="text-[10px] text-text-muted uppercase tracking-[0.2em] mb-2">Location</p>
+              <p className="text-sm font-sans font-medium text-white">Dhaka, Bangladesh</p>
+            </div>
+            <div>
+              <p className="text-[10px] text-text-muted uppercase tracking-[0.2em] mb-2">Core Stack</p>
+              <p className="text-sm font-sans font-medium text-white">Next.js • Node.js • PostgreSQL</p>
+            </div>
+          </motion.div>
+
+        </motion.div>
+
+        {/* Right: Terminal Visual */}
+        <div className="lg:col-span-5 flex justify-center lg:justify-end w-full mt-10 lg:mt-0">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full max-w-[500px] relative group"
+          >
+            {/* Terminal Glow */}
+            <div className="absolute -inset-4 bg-primary/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+
+            {/* Terminal Window */}
+            <div className="relative w-full rounded-none border border-white/10 bg-[#0a0a0a]/80 backdrop-blur-xl overflow-hidden shadow-2xl">
               
-              <div className="h-10 sm:h-12 flex items-center">
-                <span className="text-xl sm:text-3xl font-mono text-emerald-400 font-semibold">
-                  {currentText}
-                  <span className="inline-block w-2.5 h-6 sm:h-8 bg-primary ml-1 animate-pulse align-middle" />
-                </span>
+              {/* Terminal Header */}
+              <div className="flex items-center justify-between px-5 py-3 border-b border-white/10 bg-white/[0.02]">
+                <div className="flex gap-2.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-white/20 group-hover:bg-red-500 transition-colors duration-500"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-white/20 group-hover:bg-yellow-500 transition-colors duration-500 delay-75"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-white/20 group-hover:bg-green-500 transition-colors duration-500 delay-150"></div>
+                </div>
+                <div className="text-[10px] font-mono text-text-muted uppercase tracking-widest">nazmul@dev-machine:~</div>
               </div>
-            </motion.div>
 
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-base sm:text-lg text-text-muted max-w-xl leading-relaxed font-normal"
-            >
-              I build resilient, high-performance web applications and scalable backends. Focused on clean architecture, modern UX, and turning complex workflows into seamless digital products.
-            </motion.p>
-
-            {/* Action Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-wrap items-center gap-4 pt-2 w-full sm:w-auto"
-            >
-              <Link
-                href="/projects"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-bold text-sm text-background-dark bg-gradient-to-r from-primary via-emerald-400 to-cyan-accent hover:opacity-95 shadow-[0_0_25px_rgba(16,185,129,0.35)] hover:shadow-[0_0_35px_rgba(16,185,129,0.5)] transition-all duration-300"
-              >
-                <span>View Projects</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-
-              <a
-                href="https://drive.google.com/file/d/16bs_iLUUnI0LZaicJYXL3WeE_UjF2EUH/view"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-sm text-text-primary glass-panel hover:border-primary/40 hover:text-primary transition-all duration-200"
-              >
-                <Download className="w-4 h-4 text-primary" />
-                <span>Get Resume</span>
-              </a>
-
-              <Link
-                href="/contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-sm text-text-muted hover:text-white transition-colors"
-              >
-                <span>Let&apos;s Connect</span>
-              </Link>
-            </motion.div>
-
-            {/* Tech Badges List */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="pt-4 flex flex-wrap items-center gap-2 text-xs font-mono text-text-muted"
-            >
-              <span className="text-text-primary/60 font-medium">Stack:</span>
-              {['Next.js 15', 'React 19', 'Node.js', 'Express', 'MongoDB', 'TailwindCSS', 'TypeScript'].map((tech) => (
-                <span
-                  key={tech}
-                  className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10 text-emerald-400/90"
-                >
-                  {tech}
-                </span>
-              ))}
-            </motion.div>
-
-          </div>
-
-          {/* Right Column: Interactive Profile Card with Ambient Lighting */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative group w-full max-w-[380px]"
-            >
-              {/* Outer Glow Halo */}
-              <div className="absolute -inset-1.5 bg-gradient-to-r from-primary/30 to-cyan-accent/30 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition duration-500" />
-
-              {/* Main Card */}
-              <div className="relative rounded-2xl glass-panel p-3 border border-white/15 overflow-hidden shadow-2xl">
+              {/* Terminal Body */}
+              <div className="p-8 font-mono text-xs sm:text-sm leading-relaxed text-text-muted space-y-5">
+                <div>
+                  <span className="text-primary">$</span> <span className="text-white">whoami</span>
+                  <br />
+                  <span className="text-text-muted/80">Nazmul Khan</span>
+                </div>
                 
-                {/* Image Container with scanner & overlay */}
-                <div className="relative aspect-[4/5] w-full rounded-xl overflow-hidden bg-slate-950">
-                  <img
-                    src="https://i.ibb.co/8gbhygq0/IMG-0644.jpg"
-                    alt="Nazmul Khan - Full Stack Software Engineer"
-                    className="w-full h-full object-cover object-center filter brightness-95 contrast-105 group-hover:scale-105 transition-all duration-700 ease-out"
-                  />
+                <div>
+                  <span className="text-primary">$</span> <span className="text-white">role</span>
+                  <br />
+                  <span className="text-text-muted/80">Full-Stack Software Engineer</span>
+                </div>
 
-                  {/* Gradient vignettes */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-transparent to-transparent opacity-80" />
+                <div>
+                  <span className="text-primary">$</span> <span className="text-white">core_stack</span>
+                  <br />
+                  <span className="text-text-muted/80">[&quot;Next.js&quot;, &quot;Node.js&quot;, &quot;PostgreSQL&quot;]</span>
+                </div>
 
-                  {/* Bottom Image Info */}
-                  <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/10 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <div>
-                        <p className="text-xs font-bold text-white">Full-Stack Engineer</p>
-                        <p className="text-[10px] text-text-muted flex items-center gap-1">
-                          <MapPin className="w-2.5 h-2.5 text-primary" /> Dhaka, Bangladesh
-                        </p>
-                      </div>
-                    </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-primary/20 text-primary border border-primary/30">
-                      v2.5
-                    </span>
+                <div className="pt-2">
+                  <div className="flex items-center gap-3">
+                    <span className="text-primary">$</span>
+                    <span className="text-white">systemctl status</span>
+                  </div>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                    <span className="text-primary text-[10px] uppercase tracking-widest">Engineering Mode: Active</span>
                   </div>
                 </div>
-
+                
+                <div className="pt-4 flex items-center">
+                  <span className="text-primary mr-2">_</span>
+                  <span className="w-2 h-4 bg-white animate-pulse"></span>
+                </div>
               </div>
-
-              {/* Floating Badge 1: Next.js + React */}
-              <motion.div
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="absolute -top-4 -left-4 sm:-left-8 glass-panel px-3.5 py-2 rounded-xl shadow-xl border border-white/10 flex items-center gap-2 backdrop-blur-xl"
-              >
-                <div className="w-7 h-7 rounded-lg bg-cyan-accent/15 border border-cyan-accent/30 flex items-center justify-center text-cyan-accent">
-                  <Code2 className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-[11px] font-bold text-white">Next.js & React</p>
-                  <p className="text-[9px] text-text-muted">Modern Frontend</p>
-                </div>
-              </motion.div>
-
-              {/* Floating Badge 2: Node + MongoDB */}
-              <motion.div
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-                className="absolute -bottom-4 -right-2 sm:-right-6 glass-panel px-3.5 py-2 rounded-xl shadow-xl border border-white/10 flex items-center gap-2 backdrop-blur-xl"
-              >
-                <div className="w-7 h-7 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                  <Database className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-[11px] font-bold text-white">Node & MongoDB</p>
-                  <p className="text-[9px] text-text-muted">Scalable APIs</p>
-                </div>
-              </motion.div>
-
-            </motion.div>
-          </div>
-
-        </div>
-
-        {/* Stats Row */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-16 lg:mt-24 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6"
-        >
-          {stats.map((stat, i) => (
-            <div
-              key={i}
-              className="glass-panel p-5 rounded-2xl border border-white/10 hover:border-primary/40 transition-all duration-300 group"
-            >
-              <p className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-accent group-hover:scale-105 transition-transform duration-300">
-                {stat.value}
-              </p>
-              <p className="text-xs sm:text-sm text-text-muted font-medium mt-1">
-                {stat.label}
-              </p>
             </div>
-          ))}
-        </motion.div>
+          </motion.div>
+        </div>
 
       </div>
     </section>
