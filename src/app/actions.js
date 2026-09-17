@@ -88,6 +88,11 @@ export async function saveProject(formData) {
     videos
   };
 
+  const featuredVal = formData.get('featured');
+  if (featuredVal !== null) {
+    payload.featured = featuredVal === 'true' || featuredVal === 'on';
+  }
+
   if (!parsedId) {
     parsedId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
   }
@@ -109,6 +114,29 @@ export async function saveProject(formData) {
     await Project.create(payload);
   }
 
+  revalidatePath('/');
   revalidatePath('/admin');
   revalidatePath('/projects');
 }
+
+export async function toggleFeaturedProject(id) {
+  const session = await auth();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  await dbConnect();
+  const project = await Project.findById(id);
+  if (!project) {
+    throw new Error('Project not found');
+  }
+
+  project.featured = !project.featured;
+  await project.save();
+
+  revalidatePath('/');
+  revalidatePath('/admin');
+  revalidatePath('/projects');
+  return { success: true, featured: project.featured };
+}
+

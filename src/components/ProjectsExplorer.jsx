@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   Search, 
@@ -22,7 +22,9 @@ import {
   RotateCcw,
   Lock,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -99,6 +101,15 @@ export default function ProjectsExplorer({ initialProjects = [] }) {
   const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'list'
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(4); // 4 projects per page for crisp presentation
+
+  // Reset to page 1 whenever any filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedCategory, selectedTech, itemsPerPage]);
+
   // Compute category counts
   const categoryCounts = useMemo(() => {
     const counts = { All: initialProjects.length };
@@ -154,10 +165,52 @@ export default function ProjectsExplorer({ initialProjects = [] }) {
     });
   }, [initialProjects, searchTerm, selectedCategory, selectedTech]);
 
+  // Pagination Calculations
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage) || 1;
+  const safeCurrentPage = Math.min(Math.max(currentPage, 1), totalPages);
+  const startIndex = (safeCurrentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, filteredProjects.length);
+
+  const paginatedProjects = useMemo(() => {
+    return filteredProjects.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredProjects, startIndex, itemsPerPage]);
+
+  const goToPage = (page) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+    if (typeof window !== 'undefined') {
+      const target = document.getElementById('project-catalog-feed');
+      if (target) {
+        const topOffset = target.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      }
+    }
+  };
+
+  // Generate page numbers with ellipsis
+  const pageNumbers = useMemo(() => {
+    const pages = [];
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (safeCurrentPage > 3) pages.push('...');
+      const start = Math.max(2, safeCurrentPage - 1);
+      const end = Math.min(totalPages - 1, safeCurrentPage + 1);
+      for (let i = start; i <= end; i++) {
+        if (!pages.includes(i)) pages.push(i);
+      }
+      if (safeCurrentPage < totalPages - 2) pages.push('...');
+      if (!pages.includes(totalPages)) pages.push(totalPages);
+    }
+    return pages;
+  }, [totalPages, safeCurrentPage]);
+
   const resetFilters = () => {
     setSearchTerm('');
     setSelectedCategory('All');
     setSelectedTech(null);
+    setCurrentPage(1);
   };
 
   const hasActiveFilters =
@@ -450,7 +503,7 @@ export default function ProjectsExplorer({ initialProjects = [] }) {
         {/* ======================================================== */}
         {/* RIGHT MAIN AREA: Projects Feed & Controls                */}
         {/* ======================================================== */}
-        <main className="flex-1 min-w-0 w-full space-y-6">
+        <main id="project-catalog-feed" className="flex-1 min-w-0 w-full space-y-6">
           
           {/* Top Results & Active Filter Ribbon */}
           <div className="p-4 sm:p-5 rounded-2xl bg-[#101012]/80 border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -460,7 +513,7 @@ export default function ProjectsExplorer({ initialProjects = [] }) {
               <div className="flex items-center gap-2 mr-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-xs font-mono text-zinc-300 font-medium">
-                  Showing <span className="text-white font-bold">{filteredProjects.length}</span> of {initialProjects.length} Projects
+                  Showing <span className="text-white font-bold">{filteredProjects.length > 0 ? startIndex + 1 : 0}–{endIndex}</span> of {filteredProjects.length} Projects
                 </span>
               </div>
 
@@ -499,32 +552,53 @@ export default function ProjectsExplorer({ initialProjects = [] }) {
               )}
             </div>
 
-            {/* Right Desktop Grid / List Switcher */}
-            <div className="hidden sm:flex items-center gap-1 p-1 rounded-xl bg-black/60 border border-white/10 shrink-0">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-1.5 ${
-                  viewMode === 'grid'
-                    ? 'bg-primary text-black font-bold shadow-[0_0_10px_rgba(204,255,0,0.3)]'
-                    : 'text-zinc-400 hover:text-white'
-                }`}
-                title="Grid View"
-              >
-                <LayoutGrid className="w-3.5 h-3.5" />
-                <span>Grid</span>
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-1.5 ${
-                  viewMode === 'list'
-                    ? 'bg-primary text-black font-bold shadow-[0_0_10px_rgba(204,255,0,0.3)]'
-                    : 'text-zinc-400 hover:text-white'
-                }`}
-                title="List View"
-              >
-                <List className="w-3.5 h-3.5" />
-                <span>List</span>
-              </button>
+            {/* Right Desktop Controls: Per-Page & Grid/List Switcher */}
+            <div className="flex items-center gap-3 self-end sm:self-auto shrink-0">
+              {/* Items Per Page Selector */}
+              <div className="hidden md:flex items-center gap-1 text-[11px] font-mono text-zinc-400 bg-black/40 px-2.5 py-1 rounded-xl border border-white/5">
+                <span>Per Page:</span>
+                {[4, 6, 8].map((num) => (
+                  <button
+                    key={num}
+                    onClick={() => setItemsPerPage(num)}
+                    className={`px-1.5 py-0.5 rounded transition-colors ${
+                      itemsPerPage === num
+                        ? 'text-primary font-bold bg-primary/10'
+                        : 'text-zinc-500 hover:text-white'
+                    }`}
+                  >
+                    {num}
+                  </button>
+                ))}
+              </div>
+
+              {/* View Switcher */}
+              <div className="hidden sm:flex items-center gap-1 p-1 rounded-xl bg-black/60 border border-white/10 shrink-0">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-1.5 ${
+                    viewMode === 'grid'
+                      ? 'bg-primary text-black font-bold shadow-[0_0_10px_rgba(204,255,0,0.3)]'
+                      : 'text-zinc-400 hover:text-white'
+                  }`}
+                  title="Grid View"
+                >
+                  <LayoutGrid className="w-3.5 h-3.5" />
+                  <span>Grid</span>
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-1.5 ${
+                    viewMode === 'list'
+                      ? 'bg-primary text-black font-bold shadow-[0_0_10px_rgba(204,255,0,0.3)]'
+                      : 'text-zinc-400 hover:text-white'
+                  }`}
+                  title="List View"
+                >
+                  <List className="w-3.5 h-3.5" />
+                  <span>List</span>
+                </button>
+              </div>
             </div>
 
           </div>
@@ -553,10 +627,11 @@ export default function ProjectsExplorer({ initialProjects = [] }) {
               </button>
             </div>
           ) : viewMode === 'grid' ? (
-            /* 2-Column Responsive Bento Grid */
+            /* 2-Column Responsive Bento Grid (Paginated) */
             <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-              <AnimatePresence>
-                {filteredProjects.map((project, idx) => {
+              <AnimatePresence mode="wait">
+                {paginatedProjects.map((project, idx) => {
+                  const globalIdx = startIndex + idx;
                   const thumbnail =
                     project.images?.[0] ||
                     project.image ||
@@ -566,7 +641,7 @@ export default function ProjectsExplorer({ initialProjects = [] }) {
 
                   return (
                     <motion.article
-                      key={project.id}
+                      key={`${project.id}-page-${safeCurrentPage}`}
                       layout
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -588,7 +663,7 @@ export default function ProjectsExplorer({ initialProjects = [] }) {
                             <span className="truncate">{slug}.nazmul.dev</span>
                           </div>
                           <span className="text-[10px] font-mono text-zinc-500">
-                            0{idx + 1}
+                            0{globalIdx + 1}
                           </span>
                         </div>
 
@@ -704,10 +779,11 @@ export default function ProjectsExplorer({ initialProjects = [] }) {
               </AnimatePresence>
             </div>
           ) : (
-            /* Detailed List View */
+            /* Detailed List View (Paginated) */
             <div className="space-y-4">
-              <AnimatePresence>
-                {filteredProjects.map((project, idx) => {
+              <AnimatePresence mode="wait">
+                {paginatedProjects.map((project, idx) => {
+                  const globalIdx = startIndex + idx;
                   const thumbnail =
                     project.images?.[0] ||
                     project.image ||
@@ -717,7 +793,7 @@ export default function ProjectsExplorer({ initialProjects = [] }) {
 
                   return (
                     <motion.article
-                      key={project.id}
+                      key={`${project.id}-page-${safeCurrentPage}`}
                       layout
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -734,7 +810,7 @@ export default function ProjectsExplorer({ initialProjects = [] }) {
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
                             <span className="text-[10px] font-mono text-primary font-bold">
-                              0{idx + 1} //
+                              0{globalIdx + 1} //
                             </span>
                             <span className="text-[11px] font-mono text-zinc-400">
                               {project.category || 'Production'}
@@ -801,6 +877,85 @@ export default function ProjectsExplorer({ initialProjects = [] }) {
                   );
                 })}
               </AnimatePresence>
+            </div>
+          )}
+
+          {/* ======================================================== */}
+          {/* PAGINATION CONTROLS BAR                                  */}
+          {/* ======================================================== */}
+          {totalPages > 1 && (
+            <div className="pt-4">
+              <nav
+                aria-label="Projects pagination"
+                className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-[#101012]/90 border border-white/10 backdrop-blur-xl shadow-xl"
+              >
+                {/* Left Indicator Info */}
+                <div className="text-xs font-mono text-zinc-400 flex items-center gap-2">
+                  <span>
+                    Page <strong className="text-primary">{safeCurrentPage}</strong> of{' '}
+                    <strong className="text-white">{totalPages}</strong>
+                  </span>
+                  <span className="text-zinc-600">•</span>
+                  <span>
+                    Showing {startIndex + 1}–{endIndex} of {filteredProjects.length}
+                  </span>
+                </div>
+
+                {/* Right Pagination Buttons */}
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  {/* Previous Button */}
+                  <button
+                    onClick={() => goToPage(safeCurrentPage - 1)}
+                    disabled={safeCurrentPage === 1}
+                    className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-mono text-zinc-300 bg-white/[0.03] border border-white/10 hover:bg-white/10 hover:text-white hover:border-white/20 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                    title="Previous Page"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    <span className="hidden sm:inline">Prev</span>
+                  </button>
+
+                  {/* Numbered Page Buttons */}
+                  <div className="flex items-center gap-1 sm:gap-1.5">
+                    {pageNumbers.map((p, idx) => {
+                      if (p === '...') {
+                        return (
+                          <span
+                            key={`dots-${idx}`}
+                            className="w-8 h-8 flex items-center justify-center text-xs font-mono text-zinc-600"
+                          >
+                            ...
+                          </span>
+                        );
+                      }
+                      const isActive = p === safeCurrentPage;
+                      return (
+                        <button
+                          key={p}
+                          onClick={() => goToPage(p)}
+                          className={`w-9 h-9 rounded-xl text-xs font-mono font-medium transition-all flex items-center justify-center cursor-pointer ${
+                            isActive
+                              ? 'bg-primary text-black font-bold shadow-[0_0_15px_rgba(204,255,0,0.35)] scale-105 border border-primary'
+                              : 'bg-white/[0.03] text-zinc-400 hover:text-white hover:bg-white/10 border border-white/10 hover:border-white/20'
+                          }`}
+                        >
+                          {p}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Next Button */}
+                  <button
+                    onClick={() => goToPage(safeCurrentPage + 1)}
+                    disabled={safeCurrentPage === totalPages}
+                    className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-mono text-zinc-300 bg-white/[0.03] border border-white/10 hover:bg-white/10 hover:text-white hover:border-white/20 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                    title="Next Page"
+                  >
+                    <span className="hidden sm:inline">Next</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </nav>
             </div>
           )}
 

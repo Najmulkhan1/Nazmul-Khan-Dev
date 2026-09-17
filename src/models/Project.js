@@ -42,6 +42,10 @@ const ProjectSchema = new mongoose.Schema({
     type: [String],
     default: [],
   },
+  featured: {
+    type: Boolean,
+    default: false,
+  },
 }, { timestamps: true });
 
 export default mongoose.models.Project || mongoose.model('Project', ProjectSchema);

@@ -27,14 +27,17 @@ export default async function Home() {
     tags: p.technologies || [],
     liveLink: p.liveLink,
     githubLink: p.githubLink,
+    featured: p.featured ?? false,
   }));
 
   const allProjects = formattedDbProjects.length > 0
     ? [...formattedDbProjects, ...fallbackProjects.filter(fp => !formattedDbProjects.some(dp => dp.id === fp.id))]
     : fallbackProjects;
 
-  // Show top 2 featured projects on home
-  const featuredProjects = allProjects.slice(0, 2);
+  // Selected Portfolio: Display 3 projects prioritizing admin-selected featured projects
+  const explicitlyFeatured = allProjects.filter((p) => p.featured);
+  const otherProjects = allProjects.filter((p) => !p.featured);
+  const featuredProjects = [...explicitlyFeatured, ...otherProjects].slice(0, 3);
 
   return (
     <div className="flex flex-col w-full">

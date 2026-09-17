@@ -31,6 +31,11 @@ const Navbar = () => {
     return pathname === href;
   };
 
+  // Do not render public portfolio navigation on admin or login routes to prevent overlap
+  if (pathname?.startsWith('/admin') || pathname?.startsWith('/login')) {
+    return null;
+  }
+
   return (
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${

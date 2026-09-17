@@ -262,6 +262,30 @@ export default function ProjectForm({ projectData }) {
           </div>
         </div>
 
+        {/* Selected Portfolio / Featured Toggle */}
+        <div className="p-4 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between gap-4">
+          <div className="space-y-0.5">
+            <Label htmlFor="featured" className="text-sm font-semibold text-white cursor-pointer flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span>Feature in Selected Portfolio (Homepage)</span>
+            </Label>
+            <p className="text-xs text-zinc-400">
+              Display this application in the top 3 featured systems on the main landing page.
+            </p>
+          </div>
+          <label className="relative inline-flex items-center cursor-pointer shrink-0">
+            <input
+              type="checkbox"
+              id="featured"
+              name="featured"
+              value="true"
+              defaultChecked={projectData?.featured ?? false}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary peer-checked:after:bg-black peer-checked:after:border-black"></div>
+          </label>
+        </div>
+
         {/* Submit Actions */}
         <div className="pt-4 flex flex-col sm:flex-row items-center gap-3">
           <Button
