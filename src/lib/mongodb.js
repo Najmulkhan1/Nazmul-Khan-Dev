@@ -1,4 +1,12 @@
 import mongoose from 'mongoose';
+import dns from 'node:dns';
+
+// Fix querySrv ECONNREFUSED caused by local ISP/router blocking SRV DNS lookups
+try {
+  dns.setServers(['8.8.8.8', '8.8.4.4']);
+} catch (e) {
+  console.error('Failed to set custom DNS servers:', e);
+}
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -20,6 +28,7 @@ async function dbConnect() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      family: 4,
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {

@@ -1,234 +1,272 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { gsap } from 'gsap';
+import { 
+  ArrowRight, 
+  Download, 
+  Sparkles, 
+  Layers, 
+  Database, 
+  Code2, 
+  CheckCircle2, 
+  MapPin, 
+  Briefcase 
+} from 'lucide-react';
+
+const roles = [
+  'Full Stack Software Engineer',
+  'MERN Stack Specialist',
+  'Next.js & React Architect',
+  'Scalable Backend Developer'
+];
+
+const stats = [
+  { label: 'Years Experience', value: '3+' },
+  { label: 'Completed Projects', value: '15+' },
+  { label: 'Core Stack Mastery', value: '100%' },
+  { label: 'Client Satisfaction', value: '99%' },
+];
 
 const Hero = () => {
-    const titleRef = useRef(null);
-    const imageRef = useRef(null);
-    const [typedText, setTypedText] = useState('');
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [showCursor, setShowCursor] = useState(true);
-    const fullText = "MERN Stack Developer";
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [currentText, setCurrentText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
 
-    // Snippets for the background "Code Rain"
-    const codeSnippets = [
-        "export const App = () => {",
-        "const [data, setData] = useState([]);",
-        "useEffect(() => { fetchAPI(); }, []);",
-        "router.post('/api/v1/deploy', (req, res) => {",
-        "db.connect(process.env.MONGO_URI);",
-        "model.find({ active: true }).then(res => ...)",
-        "npm install @framer/motion gsap",
-        "git commit -m 'feat: optimized UI'",
-        "while(coding) { eat(); sleep(); code(); }",
-        "const theme = { primary: '#00ff41' };",
-        "axios.get('/api/user/profile')",
-        "new Promise((resolve) => setTimeout(resolve))"
-    ];
+  // Typewriter effect for rotating roles
+  useEffect(() => {
+    const targetRole = roles[roleIndex];
+    const typingSpeed = isDeleting ? 40 : 80;
 
-    // Typing Logic
-    useEffect(() => {
-        let timeout;
-        const handleTyping = () => {
-            const currentText = fullText;
-            const updatedText = isDeleting
-                ? currentText.substring(0, typedText.length - 1)
-                : currentText.substring(0, typedText.length + 1);
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        if (currentText.length < targetRole.length) {
+          setCurrentText(targetRole.slice(0, currentText.length + 1));
+        } else {
+          // Pause when word is finished typing
+          setTimeout(() => setIsDeleting(true), 2000);
+        }
+      } else {
+        if (currentText.length > 0) {
+          setCurrentText(targetRole.slice(0, currentText.length - 1));
+        } else {
+          setIsDeleting(false);
+          setRoleIndex((prev) => (prev + 1) % roles.length);
+        }
+      }
+    }, typingSpeed);
 
-            setTypedText(updatedText);
-            let typeSpeed = isDeleting ? 50 : 100;
+    return () => clearTimeout(timeout);
+  }, [currentText, isDeleting, roleIndex]);
 
-            if (!isDeleting && updatedText === currentText) {
-                typeSpeed = 2000;
-                setIsDeleting(true);
-            } else if (isDeleting && updatedText === '') {
-                setIsDeleting(false);
-                typeSpeed = 500;
-            }
-            timeout = setTimeout(handleTyping, typeSpeed);
-        };
-        timeout = setTimeout(handleTyping, 100);
-        const cursorInterval = setInterval(() => setShowCursor(prev => !prev), 500);
-        return () => { clearTimeout(timeout); clearInterval(cursorInterval); };
-    }, [typedText, isDeleting]);
-
-    // GSAP for initial entrance
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            gsap.from(".terminal-window", {
-                opacity: 0,
-                x: -50,
-                duration: 1,
-                ease: "power3.out"
-            });
-            gsap.from(".image-frame", {
-                opacity: 0,
-                x: 50,
-                duration: 1,
-                delay: 0.3,
-                ease: "power3.out"
-            });
-        });
-        return () => ctx.revert();
-    }, []);
-
-    return (
-        <section className="relative min-h-screen flex items-center overflow-hidden bg-background-dark py-12 md:py-20 font-mono">
+  return (
+    <section className="relative min-h-[calc(100vh-80px)] flex flex-col justify-center py-12 lg:py-20 overflow-hidden">
+      <div className="w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          
+          {/* Left Column: Bio & Calls to Action */}
+          <div className="lg:col-span-7 flex flex-col items-start space-y-6">
             
-            {/* --- 1. CODE BACKGROUND LAYER --- */}
-            <div className="absolute inset-0 z-0 opacity-10 pointer-events-none select-none overflow-hidden">
-                <div className="absolute inset-0 flex flex-wrap gap-12 p-10 text-[10px] text-primary leading-loose">
-                    {Array.from({ length: 30 }).map((_, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ y: -100, opacity: 0 }}
-                            animate={{ 
-                                y: [0, 1200], 
-                                opacity: [0, 1, 1, 0] 
-                            }}
-                            transition={{ 
-                                duration: Math.random() * 25 + 15, 
-                                repeat: Infinity, 
-                                ease: "linear",
-                                delay: Math.random() * -25
-                            }}
-                            className="whitespace-nowrap"
-                        >
-                            {codeSnippets[i % codeSnippets.length]}
-                        </motion.div>
-                    ))}
-                </div>
-                {/* Center fade mask */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_var(--color-background-dark)_80%)]" />
-            </div>
+            {/* Pill Tag */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel border border-primary/30 text-xs font-medium text-primary shadow-[0_0_20px_-5px_rgba(16,185,129,0.3)]"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-primary-light animate-pulse" />
+              <span>Full-Stack Engineering & System Design</span>
+            </motion.div>
 
-            <div className="container mx-auto px-6 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                    
-                    {/* --- 2. LEFT CONTENT (TERMINAL UI) --- */}
-                    <div className="lg:col-span-7 terminal-window bg-background-light/20 backdrop-blur-xl border border-white/10 p-6 md:p-10 rounded-lg shadow-2xl relative overflow-hidden group">
-                        
-                        {/* Terminal Header */}
-                        <div className="flex items-center gap-2 mb-8 border-b border-white/5 pb-4">
-                            <div className="w-3 h-3 rounded-full bg-red-500/40" />
-                            <div className="w-3 h-3 rounded-full bg-yellow-500/40" />
-                            <div className="w-3 h-3 rounded-full bg-primary/40" />
-                            <span className="ml-4 text-[10px] text-text-muted tracking-widest uppercase">root@developer:~</span>
-                        </div>
+            {/* Main Headline */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="space-y-2"
+            >
+              <h1 className="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-text-primary leading-[1.1]">
+                Hi, I&apos;m <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-emerald-400 to-cyan-400">Nazmul Khan</span>
+              </h1>
+              
+              <div className="h-10 sm:h-12 flex items-center">
+                <span className="text-xl sm:text-3xl font-mono text-emerald-400 font-semibold">
+                  {currentText}
+                  <span className="inline-block w-2.5 h-6 sm:h-8 bg-primary ml-1 animate-pulse align-middle" />
+                </span>
+              </div>
+            </motion.div>
 
-                        <div className="space-y-6">
-                            <div className="flex items-center text-primary text-lg">
-                                <span className="mr-3 opacity-50">&gt;</span>
-                                <h2>const profile = "Engineer";</h2>
-                            </div>
-                            
-                            <h1 className="text-4xl md:text-7xl font-bold text-text-primary tracking-tighter leading-tight">
-                                {typedText}
-                                <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} inline-block w-4 h-10 md:h-16 bg-primary ml-2 align-middle shadow-[0_0_10px_#00ff41]`} />
-                            </h1>
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-base sm:text-lg text-text-muted max-w-xl leading-relaxed font-normal"
+            >
+              I build resilient, high-performance web applications and scalable backends. Focused on clean architecture, modern UX, and turning complex workflows into seamless digital products.
+            </motion.p>
 
-                            <div className="border-l-2 border-primary/30 pl-6 py-2">
-                                <p className="text-text-muted text-sm md:text-base leading-relaxed max-w-xl">
-                                    // I architect and build robust digital ecosystems using the MERN stack. 
-                                    Focusing on high-performance backends and interactive, responsive frontends.
-                                </p>
-                            </div>
+            {/* Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex flex-wrap items-center gap-4 pt-2 w-full sm:w-auto"
+            >
+              <Link
+                href="/projects"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-bold text-sm text-background-dark bg-gradient-to-r from-primary via-emerald-400 to-cyan-accent hover:opacity-95 shadow-[0_0_25px_rgba(16,185,129,0.35)] hover:shadow-[0_0_35px_rgba(16,185,129,0.5)] transition-all duration-300"
+              >
+                <span>View Projects</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
 
-                            <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                                <Link href="https://drive.google.com/file/d/16bs_iLUUnI0LZaicJYXL3WeE_UjF2EUH/view" 
-                                      className="relative group px-8 py-4 bg-primary text-background-dark font-black overflow-hidden transition-all text-center">
-                                    <span className="relative z-10">[ DOWNLOAD_RESUME ]</span>
-                                    <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-300 opacity-20" />
-                                </Link>
-                                
-                                <Link href="/contact" 
-                                      className="px-8 py-4 border border-primary text-primary font-bold hover:bg-primary/10 transition-all text-center">
-                                    &lt; Hire_Me /&gt;
-                                </Link>
-                            </div>
-                        </div>
+              <a
+                href="https://drive.google.com/file/d/16bs_iLUUnI0LZaicJYXL3WeE_UjF2EUH/view"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-sm text-text-primary glass-panel hover:border-primary/40 hover:text-primary transition-all duration-200"
+              >
+                <Download className="w-4 h-4 text-primary" />
+                <span>Get Resume</span>
+              </a>
 
-                        {/* Language Tags */}
-                        <div className="mt-12 flex flex-wrap gap-4 text-[10px] text-primary/40 uppercase">
-                            <span>#mongodb</span>
-                            <span>#express</span>
-                            <span>#react</span>
-                            <span>#node</span>
-                            <span>#gsap</span>
-                        </div>
+              <Link
+                href="/contact"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-sm text-text-muted hover:text-white transition-colors"
+              >
+                <span>Let&apos;s Connect</span>
+              </Link>
+            </motion.div>
+
+            {/* Tech Badges List */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="pt-4 flex flex-wrap items-center gap-2 text-xs font-mono text-text-muted"
+            >
+              <span className="text-text-primary/60 font-medium">Stack:</span>
+              {['Next.js 15', 'React 19', 'Node.js', 'Express', 'MongoDB', 'TailwindCSS', 'TypeScript'].map((tech) => (
+                <span
+                  key={tech}
+                  className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/10 text-emerald-400/90"
+                >
+                  {tech}
+                </span>
+              ))}
+            </motion.div>
+
+          </div>
+
+          {/* Right Column: Interactive Profile Card with Ambient Lighting */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="relative group w-full max-w-[380px]"
+            >
+              {/* Outer Glow Halo */}
+              <div className="absolute -inset-1.5 bg-gradient-to-r from-primary/30 to-cyan-accent/30 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition duration-500" />
+
+              {/* Main Card */}
+              <div className="relative rounded-2xl glass-panel p-3 border border-white/15 overflow-hidden shadow-2xl">
+                
+                {/* Image Container with scanner & overlay */}
+                <div className="relative aspect-[4/5] w-full rounded-xl overflow-hidden bg-slate-950">
+                  <img
+                    src="https://i.ibb.co/8gbhygq0/IMG-0644.jpg"
+                    alt="Nazmul Khan - Full Stack Software Engineer"
+                    className="w-full h-full object-cover object-center filter brightness-95 contrast-105 group-hover:scale-105 transition-all duration-700 ease-out"
+                  />
+
+                  {/* Gradient vignettes */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-transparent to-transparent opacity-80" />
+
+                  {/* Bottom Image Info */}
+                  <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-slate-900/80 backdrop-blur-md border border-white/10 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <div>
+                        <p className="text-xs font-bold text-white">Full-Stack Engineer</p>
+                        <p className="text-[10px] text-text-muted flex items-center gap-1">
+                          <MapPin className="w-2.5 h-2.5 text-primary" /> Dhaka, Bangladesh
+                        </p>
+                      </div>
                     </div>
-
-                    {/* --- 3. RIGHT CONTENT (TECH IMAGE) --- */}
-                    <div className="lg:col-span-5 flex justify-center lg:justify-end">
-                        <div className="relative group image-frame">
-                            
-                            {/* Outer Glow & Corners */}
-                            <div className="absolute -inset-4 border border-primary/10 rounded-lg pointer-events-none" />
-                            <div className="absolute -top-2 -right-2 w-16 h-16 border-t-2 border-r-2 border-primary z-20" />
-                            <div className="absolute -bottom-2 -left-2 w-16 h-16 border-b-2 border-l-2 border-primary z-20" />
-                            
-                            {/* Main Image Container */}
-                            <div className="relative w-72 h-[420px] md:w-80 md:h-[500px] bg-background-light overflow-hidden border border-white/10 shadow-2xl">
-                                
-                                {/* Scanner Line */}
-                                <motion.div 
-                                    className="absolute left-0 right-0 h-[2px] bg-primary z-30 shadow-[0_0_15px_#00ff41]"
-                                    animate={{ top: ['0%', '100%', '0%'] }}
-                                    transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-                                />
-
-                                {/* Subtle Overlay Lines */}
-                                <div className="absolute inset-0 z-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_4px,3px_100%] pointer-events-none" />
-
-                                <img 
-                                    ref={imageRef}
-                                    src="https://i.ibb.co/8gbhygq0/IMG-0644.jpg" 
-                                    alt="Developer Portrait"
-                                    className="w-full h-full object-cover grayscale brightness-75 contrast-125 group-hover:grayscale-0 group-hover:scale-110 group-hover:brightness-100 transition-all duration-1000 ease-in-out"
-                                />
-
-                                {/* Bottom Image Badge */}
-                                <div className="absolute bottom-0 left-0 right-0 bg-background-dark/80 backdrop-blur-md p-4 border-t border-primary/30 z-20 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                                    <div className="flex justify-between items-center text-[10px]">
-                                        <span className="text-primary tracking-widest">ENCRYPTION: AES-256</span>
-                                        <span className="text-white/40">v.2.0.24</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Experience Circular Badge */}
-                            <motion.div 
-                                className="absolute -left-12 top-10 w-24 h-24 hidden md:block z-30"
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                            >
-                                <div className="w-full h-full border border-dashed border-primary/40 rounded-full flex items-center justify-center">
-                                    <span className="text-[8px] text-primary font-bold text-center leading-tight">
-                                        FULLSTACK<br/>ENGINEER<br/>2024
-                                    </span>
-                                </div>
-                            </motion.div>
-
-                            {/* Profile Status Badge */}
-                            <div className="absolute -right-10 bottom-20 bg-background-dark border border-primary/40 p-3 hidden md:block z-30">
-                                <div className="flex flex-col gap-1 font-mono text-[9px]">
-                                    <span className="text-primary flex items-center gap-2">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                                        LIVE_SESSION
-                                    </span>
-                                    <span className="text-text-muted">LOC: DHAKA_BD</span>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-primary/20 text-primary border border-primary/30">
+                      v2.5
+                    </span>
+                  </div>
                 </div>
+
+              </div>
+
+              {/* Floating Badge 1: Next.js + React */}
+              <motion.div
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="absolute -top-4 -left-4 sm:-left-8 glass-panel px-3.5 py-2 rounded-xl shadow-xl border border-white/10 flex items-center gap-2 backdrop-blur-xl"
+              >
+                <div className="w-7 h-7 rounded-lg bg-cyan-accent/15 border border-cyan-accent/30 flex items-center justify-center text-cyan-accent">
+                  <Code2 className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-bold text-white">Next.js & React</p>
+                  <p className="text-[9px] text-text-muted">Modern Frontend</p>
+                </div>
+              </motion.div>
+
+              {/* Floating Badge 2: Node + MongoDB */}
+              <motion.div
+                initial={{ y: -10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="absolute -bottom-4 -right-2 sm:-right-6 glass-panel px-3.5 py-2 rounded-xl shadow-xl border border-white/10 flex items-center gap-2 backdrop-blur-xl"
+              >
+                <div className="w-7 h-7 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                  <Database className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-[11px] font-bold text-white">Node & MongoDB</p>
+                  <p className="text-[9px] text-text-muted">Scalable APIs</p>
+                </div>
+              </motion.div>
+
+            </motion.div>
+          </div>
+
+        </div>
+
+        {/* Stats Row */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mt-16 lg:mt-24 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6"
+        >
+          {stats.map((stat, i) => (
+            <div
+              key={i}
+              className="glass-panel p-5 rounded-2xl border border-white/10 hover:border-primary/40 transition-all duration-300 group"
+            >
+              <p className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-accent group-hover:scale-105 transition-transform duration-300">
+                {stat.value}
+              </p>
+              <p className="text-xs sm:text-sm text-text-muted font-medium mt-1">
+                {stat.label}
+              </p>
             </div>
-        </section>
-    );
+          ))}
+        </motion.div>
+
+      </div>
+    </section>
+  );
 };
 
 export default Hero;
