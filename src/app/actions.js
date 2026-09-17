@@ -23,8 +23,12 @@ async function uploadToImgBB(file) {
   const apiKey = process.env.IMGBB_API_KEY;
   if (!apiKey) throw new Error("IMGBB_API_KEY is not configured in environment variables.");
 
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+  const base64Image = buffer.toString('base64');
+
   const formData = new FormData();
-  formData.append('image', file);
+  formData.append('image', base64Image);
 
   const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
     method: 'POST',
@@ -55,6 +59,12 @@ export async function saveProject(formData) {
   const description = formData.get('description');
   const liveLink = formData.get('liveLink');
   const githubLink = formData.get('githubLink');
+  const role = formData.get('role') || '';
+  const timeline = formData.get('timeline') || '';
+  const deployment = formData.get('deployment') || '';
+  const archClient = formData.get('archClient') || '';
+  const archServer = formData.get('archServer') || '';
+  const archDb = formData.get('archDb') || '';
   
   const techStr = formData.get('technologies') || '';
   const chalStr = formData.get('challenges') || '';
@@ -86,7 +96,13 @@ export async function saveProject(formData) {
     technologies,
     challenges,
     improvements,
-    videos
+    videos,
+    role,
+    timeline,
+    deployment,
+    archClient,
+    archServer,
+    archDb,
   };
 
   const featuredVal = formData.get('featured');
@@ -115,9 +131,9 @@ export async function saveProject(formData) {
     await Project.create(payload);
   }
 
-  revalidatePath('/');
-  revalidatePath('/admin');
-  revalidatePath('/projects');
+  revalidatePath('/', 'layout');
+  revalidatePath('/admin', 'layout');
+  revalidatePath('/projects', 'layout');
 }
 
 export async function toggleFeaturedProject(id) {
@@ -136,8 +152,8 @@ export async function toggleFeaturedProject(id) {
   await project.save();
 
   revalidatePath('/');
-  revalidatePath('/admin');
-  revalidatePath('/projects');
+  revalidatePath('/admin', 'layout');
+  revalidatePath('/projects', 'layout');
   return { success: true, featured: project.featured };
 }
 

@@ -207,6 +207,80 @@ export default function ProjectForm({ projectData }) {
           </div>
         </div>
 
+        {/* Project Metadata (Role, Timeline, Deployment) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="space-y-2">
+            <Label className="text-xs font-mono uppercase tracking-wider text-zinc-300">
+              Role
+            </Label>
+            <Input
+              name="role"
+              placeholder="e.g. Full Stack Architect"
+              defaultValue={projectData?.role || 'Full Stack Architect'}
+              className="bg-black/50 border-white/10 focus:border-primary text-white rounded-xl h-11"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-xs font-mono uppercase tracking-wider text-zinc-300">
+              Timeline
+            </Label>
+            <Input
+              name="timeline"
+              placeholder="e.g. 2025 Production"
+              defaultValue={projectData?.timeline || '2025 Production'}
+              className="bg-black/50 border-white/10 focus:border-primary text-white rounded-xl h-11"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-xs font-mono uppercase tracking-wider text-zinc-300">
+              Deployment
+            </Label>
+            <Input
+              name="deployment"
+              placeholder="e.g. Docker & VPS"
+              defaultValue={projectData?.deployment || 'Docker & VPS'}
+              className="bg-black/50 border-white/10 focus:border-primary text-white rounded-xl h-11"
+            />
+          </div>
+        </div>
+
+        {/* Architecture Specs */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="space-y-2">
+            <Label className="text-xs font-mono uppercase tracking-wider text-zinc-300">
+              Architecture: Client
+            </Label>
+            <Input
+              name="archClient"
+              placeholder="e.g. Next.js / React SSR"
+              defaultValue={projectData?.archClient || 'Next.js / React SSR'}
+              className="bg-black/50 border-white/10 focus:border-primary text-white rounded-xl h-11 text-xs"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-xs font-mono uppercase tracking-wider text-zinc-300">
+              Architecture: Server
+            </Label>
+            <Input
+              name="archServer"
+              placeholder="e.g. Node / Express API"
+              defaultValue={projectData?.archServer || 'Node / Express API'}
+              className="bg-black/50 border-white/10 focus:border-primary text-white rounded-xl h-11 text-xs"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-xs font-mono uppercase tracking-wider text-zinc-300">
+              Architecture: Database
+            </Label>
+            <Input
+              name="archDb"
+              placeholder="e.g. MongoDB & Redis"
+              defaultValue={projectData?.archDb || 'MongoDB & Redis'}
+              className="bg-black/50 border-white/10 focus:border-primary text-white rounded-xl h-11 text-xs"
+            />
+          </div>
+        </div>
+
         {/* Video Embed URLs */}
         <div className="space-y-2">
           <Label className="text-xs font-mono uppercase tracking-wider text-zinc-300">

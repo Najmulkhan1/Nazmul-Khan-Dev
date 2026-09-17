@@ -46,6 +46,33 @@ const ProjectSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  role: {
+    type: String,
+    default: "Full Stack Architect",
+  },
+  timeline: {
+    type: String,
+    default: "2025 Production",
+  },
+  deployment: {
+    type: String,
+    default: "Docker & VPS",
+  },
+  archClient: {
+    type: String,
+    default: "Next.js / React SSR",
+  },
+  archServer: {
+    type: String,
+    default: "Node / Express API",
+  },
+  archDb: {
+    type: String,
+    default: "MongoDB & Redis",
+  },
 }, { timestamps: true });
+
+// Clear mongoose cache for hot reloading
+delete mongoose.models.Project;
 
 export default mongoose.models.Project || mongoose.model('Project', ProjectSchema);

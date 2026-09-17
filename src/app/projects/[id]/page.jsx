@@ -215,7 +215,7 @@ export default async function ProjectDetails({ params }) {
             <UserCheck className="w-3.5 h-3.5 text-primary" />
             <span>Role</span>
           </div>
-          <p className="text-sm sm:text-base font-semibold text-white">Full Stack Architect</p>
+          <p className="text-sm sm:text-base font-semibold text-white">{project.role || 'Full Stack Architect'}</p>
           <p className="text-[11px] font-mono text-zinc-500">Frontend & Backend Logic</p>
         </div>
 
@@ -224,7 +224,7 @@ export default async function ProjectDetails({ params }) {
             <Calendar className="w-3.5 h-3.5 text-primary" />
             <span>Timeline</span>
           </div>
-          <p className="text-sm sm:text-base font-semibold text-white">2025 Production</p>
+          <p className="text-sm sm:text-base font-semibold text-white">{project.timeline || '2025 Production'}</p>
           <p className="text-[11px] font-mono text-zinc-500">Completed & Maintained</p>
         </div>
 
@@ -233,7 +233,7 @@ export default async function ProjectDetails({ params }) {
             <Server className="w-3.5 h-3.5 text-primary" />
             <span>Deployment</span>
           </div>
-          <p className="text-sm sm:text-base font-semibold text-white">Docker & VPS</p>
+          <p className="text-sm sm:text-base font-semibold text-white">{project.deployment || 'Docker & VPS'}</p>
           <p className="text-[11px] font-mono text-zinc-500">Reverse Proxy & SSL</p>
         </div>
 
@@ -300,7 +300,7 @@ export default async function ProjectDetails({ params }) {
                   <Layers className="w-3.5 h-3.5" />
                   <span>01. CLIENT</span>
                 </div>
-                <p className="text-xs text-zinc-300 font-medium">Next.js / React SSR</p>
+                <p className="text-xs text-zinc-300 font-medium">{project.archClient || 'Next.js / React SSR'}</p>
                 <p className="text-[11px] text-zinc-500 leading-relaxed">
                   Optimistic UI state, responsive Tailwind styling, and client hydration.
                 </p>
@@ -311,7 +311,7 @@ export default async function ProjectDetails({ params }) {
                   <Cpu className="w-3.5 h-3.5" />
                   <span>02. SERVER API</span>
                 </div>
-                <p className="text-xs text-zinc-300 font-medium">Node / Express API</p>
+                <p className="text-xs text-zinc-300 font-medium">{project.archServer || 'Node / Express API'}</p>
                 <p className="text-[11px] text-zinc-500 leading-relaxed">
                   RESTful endpoints, JWT cookie validation, role permissions & rate limiting.
                 </p>
@@ -322,7 +322,7 @@ export default async function ProjectDetails({ params }) {
                   <Database className="w-3.5 h-3.5" />
                   <span>03. PERSISTENCE</span>
                 </div>
-                <p className="text-xs text-zinc-300 font-medium">MongoDB & Redis</p>
+                <p className="text-xs text-zinc-300 font-medium">{project.archDb || 'MongoDB & Redis'}</p>
                 <p className="text-[11px] text-zinc-500 leading-relaxed">
                   Compound indexed queries, Redis cached session store, and ACID transactions.
                 </p>
