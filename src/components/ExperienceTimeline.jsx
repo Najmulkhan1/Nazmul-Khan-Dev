@@ -6,23 +6,23 @@ const experiences = [
   {
     role: 'Full-Stack Developer',
     company: 'Freelance & Independent Projects',
-    period: '2021 — Present',
-    description: 'Architecting and delivering full-stack web applications for various clients. Focusing on Next.js, React, Node.js, and PostgreSQL. Specialized in building e-commerce platforms, custom dashboards, and realtime collaboration tools.',
-    tech: ['React', 'Next.js', 'Node.js', 'PostgreSQL', 'Tailwind CSS']
+    period: '2025 — Present',
+    description: 'Architecting and delivering full-stack web applications for various clients. Focusing on Next.js, React, NestJS, Node.js, and PostgreSQL. Specialized in building e-commerce platforms, custom dashboards, and realtime collaboration tools.',
+    tech: ['React', 'Next.js', 'NestJS', 'Node.js', 'PostgreSQL', 'Docker', 'Tailwind CSS']
   },
   {
     role: 'Frontend Engineering Intern',
     company: 'Tech Solutions BD',
-    period: '2020 — 2021',
+    period: '2025',
     description: 'Collaborated with senior engineers to build responsive UI components. Improved core web vitals by 20% through code splitting and asset optimization. Participated in daily standups and agile development cycles.',
     tech: ['JavaScript', 'HTML5', 'CSS3', 'React', 'Git']
   },
   {
-    role: 'Computer Science Student',
-    company: 'Self-Taught & Certifications',
-    period: '2019 — 2020',
-    description: 'Mastered the fundamentals of computer science, algorithms, and data structures. Completed intensive bootcamps on full-stack web development and modern JavaScript ecosystems.',
-    tech: ['Algorithms', 'Data Structures', 'ES6+', 'Web Architecture']
+    role: 'Software Engineering Trainee',
+    company: 'Self-Taught & Advanced Bootcamps',
+    period: '2025',
+    description: 'Mastered the fundamentals of computer science, algorithms, and data structures. Completed intensive programs on modern full-stack web development and JavaScript/TypeScript ecosystems.',
+    tech: ['Algorithms', 'Data Structures', 'TypeScript', 'Web Architecture']
   }
 ];
 

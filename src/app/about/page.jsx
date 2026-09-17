@@ -2,7 +2,7 @@ import { ArrowUpRight } from 'lucide-react';
 
 const About = () => {
   return (
-    <section id="about" className="py-24 sm:py-32 w-full border-t border-white/5 relative">
+    <section id="about" className="pt-32 sm:pt-40 pb-24 sm:pb-32 w-full relative">
       {/* Background Section Title */}
       <div className="absolute top-10 left-0 w-full overflow-hidden pointer-events-none opacity-5">
         <h2 className="text-[12vw] font-display font-bold whitespace-nowrap text-white">
@@ -53,7 +53,7 @@ const About = () => {
               </div>
               <div>
                 <p className="text-[10px] text-text-muted uppercase tracking-widest mb-1">Experience</p>
-                <p className="text-xs font-bold text-white">3+ Years</p>
+                <p className="text-xs font-bold text-white">2+ Years</p>
               </div>
             </div>
 
@@ -82,10 +82,10 @@ const About = () => {
                     My passion for programming started with an insatiable curiosity about how modern digital platforms operate behind the scenes. What began with exploring basic HTML and JavaScript quickly evolved into architecting scalable, full-stack ecosystems.
                   </p>
                   <p>
-                    Over the past 3+ years, I have engineered full-stack applications leveraging the MERN stack (MongoDB, Express, React, Node.js) and Next.js. I specialize in designing responsive, intuitive frontend user interfaces paired with secure, performant RESTful backends.
+                    Over the past 2+ years, I have engineered full-stack applications leveraging Next.js, NestJS, React, and Node.js, paired with PostgreSQL, MongoDB, and Redis caching. I specialize in architecting secure, high-performance backends, containerizing with Docker, and deploying zero-downtime systems directly to production Linux VPS.
                   </p>
                   <p>
-                    Whether it is building multi-vendor e-commerce portals, real-time collaboration suites, or data-driven management dashboards, my goal is always to deliver scalable, production-ready solutions with exceptional user experience.
+                    Whether it is building multi-vendor e-commerce portals, real-time collaboration suites, or mission-critical management dashboards, my goal is always to deliver scalable, production-ready solutions with exceptional reliability and user experience.
                   </p>
                 </div>
               </div>

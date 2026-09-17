@@ -7,10 +7,10 @@ import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
-  { name: 'About', href: '/#about' },
-  { name: 'Work', href: '/#projects' },
-  { name: 'Skills', href: '/#skills' },
-  { name: 'Contact', href: '/#contact' },
+  { name: 'About', href: '/about' },
+  { name: 'Work', href: '/projects' },
+  { name: 'Skills', href: '/skills' },
+  { name: 'Contact', href: '/contact' },
 ];
 
 const Navbar = () => {
@@ -24,11 +24,18 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const isActive = (href) => {
+    if (href === '/projects') {
+      return pathname.startsWith('/projects');
+    }
+    return pathname === href;
+  };
+
   return (
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-background-dark/80 backdrop-blur-xl border-b border-white/5 py-3'
+          ? 'bg-background-dark/85 backdrop-blur-xl border-b border-white/5 py-3'
           : 'bg-transparent py-5'
       }`}
     >
@@ -58,23 +65,33 @@ const Navbar = () => {
 
         {/* Center Nav */}
         <nav className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-xs font-sans font-medium uppercase tracking-widest text-text-muted hover:text-white transition-colors relative group"
-            >
-              {item.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full" />
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                className={`text-xs font-sans uppercase tracking-widest transition-colors relative py-1 group ${
+                  active ? 'text-white font-bold' : 'text-text-muted hover:text-white font-medium'
+                }`}
+              >
+                <span>{item.name}</span>
+                {active && (
+                  <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-primary shadow-[0_0_8px_rgba(204,255,0,0.8)]" />
+                )}
+                {!active && (
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full" />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Right CTA */}
         <div className="hidden md:flex items-center">
           <Link
-            href="/#contact"
-            className="group flex items-center gap-2 px-5 py-2.5 bg-white text-black text-xs font-bold uppercase tracking-wider rounded-none hover:bg-primary transition-colors"
+            href="/contact"
+            className="group flex items-center gap-2 px-5 py-2.5 bg-white text-black text-xs font-bold uppercase tracking-wider rounded-none hover:bg-primary transition-colors shadow-sm"
           >
             Let&apos;s Talk
             <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -107,22 +124,28 @@ const Navbar = () => {
             </div>
             
             <div className="flex flex-col gap-6">
-              {navItems.map((item, i) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <Link
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="font-display text-4xl font-bold hover:text-primary transition-colors"
+              {navItems.map((item, i) => {
+                const active = isActive(item.href);
+                return (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 }}
                   >
-                    {item.name}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`font-display text-4xl font-bold transition-colors flex items-center justify-between ${
+                        active ? 'text-primary' : 'text-white hover:text-primary'
+                      }`}
+                    >
+                      <span>{item.name}</span>
+                      {active && <span className="text-xs font-mono text-primary uppercase">Active</span>}
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </div>
 
             <div className="mt-auto flex flex-col gap-6">
@@ -136,7 +159,7 @@ const Navbar = () => {
                 </span>
               </div>
               <Link
-                href="/#contact"
+                href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full py-4 bg-white text-black text-center text-sm font-bold uppercase tracking-widest hover:bg-primary transition-colors"
               >

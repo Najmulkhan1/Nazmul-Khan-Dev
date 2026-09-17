@@ -70,7 +70,7 @@ const Contact = () => {
   };
 
   return (
-    <div id="contact" className="w-full py-24 sm:py-32 border-t border-white/5 relative">
+    <div id="contact" className="w-full pt-32 sm:pt-40 pb-24 sm:pb-32 relative">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         
         {/* Header */}
@@ -214,12 +214,12 @@ const Contact = () => {
                 <div className="flex items-center justify-between group">
                   <div>
                     <p className="text-[10px] font-sans uppercase tracking-widest text-text-muted mb-1">Phone / WhatsApp</p>
-                    <a href="https://wa.me/8801874246830" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-white hover:text-primary transition-colors">
-                      +880 1874-246830
+                    <a href="https://wa.me/8801619863535" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-white hover:text-primary transition-colors">
+                      +880 1619-863535
                     </a>
                   </div>
                   <button
-                    onClick={() => copyToClipboard('+8801874246830', 'phone')}
+                    onClick={() => copyToClipboard('+8801619863535', 'phone')}
                     className="text-text-muted hover:text-white transition-colors p-2"
                   >
                     {copiedPhone ? <Check className="w-4 h-4 text-primary" /> : <Copy className="w-4 h-4" />}

@@ -1,26 +1,32 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { MonitorSmartphone, Server, Database } from 'lucide-react';
+import { MonitorSmartphone, Server, Database, Boxes } from 'lucide-react';
 
 const services = [
   {
     icon: MonitorSmartphone,
     title: 'Frontend Engineering',
-    description: 'Building responsive, accessible, and performant web interfaces using React and Next.js. I focus on creating intuitive user experiences that engage and convert.',
+    description: 'Building responsive, accessible, and performant web interfaces using React 19 and Next.js 15. I focus on creating intuitive user experiences that engage and convert.',
     features: ['React & Next.js', 'Tailwind CSS', 'Framer Motion', 'Responsive Design'],
   },
   {
     icon: Server,
-    title: 'Backend Architecture',
-    description: 'Designing scalable, secure, and robust RESTful APIs and server-side applications using Node.js and Express to power modern digital products.',
-    features: ['Node.js & Express', 'RESTful APIs', 'Authentication', 'Microservices'],
+    title: 'Backend & API Architecture',
+    description: 'Designing scalable, secure, and robust RESTful APIs and microservices using NestJS, Node.js, and Express to power modern digital products.',
+    features: ['NestJS & Node.js', 'Express.js', 'RESTful APIs', 'JWT & Auth'],
   },
   {
     icon: Database,
-    title: 'Database Management',
-    description: 'Modeling complex data structures, optimizing queries, and managing data persistence using PostgreSQL for high-performance applications.',
-    features: ['PostgreSQL', 'Data Modeling', 'Optimization'],
+    title: 'Databases & Redis Caching',
+    description: 'Modeling complex data structures, optimizing queries, and managing sub-millisecond data persistence with PostgreSQL, MongoDB, and Redis caching.',
+    features: ['PostgreSQL', 'MongoDB', 'Redis Caching', 'Query Optimization'],
+  },
+  {
+    icon: Boxes,
+    title: 'DevOps & Production VPS',
+    description: 'Containerizing full-stack systems with Docker, configuring Nginx reverse proxies with SSL, and managing production-level deployments on Linux VPS.',
+    features: ['Docker & Compose', 'Production VPS', 'Nginx & SSL', 'CI/CD Automation'],
   },
 ];
 

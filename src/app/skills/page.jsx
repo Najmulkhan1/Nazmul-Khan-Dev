@@ -34,38 +34,41 @@ const skillCategories = [
     description: 'Building robust, secure, and horizontally scalable backends.',
     skills: [
       { name: 'Node.js', category: 'Runtime Environment', level: 'Advanced', icon: Server },
+      { name: 'NestJS', category: 'Enterprise Framework', level: 'Advanced', icon: Server },
       { name: 'Express.js', category: 'API Framework', level: 'Advanced', icon: Cpu },
       { name: 'RESTful APIs', category: 'API Architecture', level: 'Advanced', icon: Workflow },
       { name: 'Server Actions', category: 'Server Mutations', level: 'Advanced', icon: Zap },
       { name: 'NextAuth / JWT', category: 'Security & Auth', level: 'Proficient', icon: ShieldCheck },
-      { name: 'GraphQL', category: 'Query Language', level: 'Familiar', icon: Boxes },
     ],
   },
   {
     title: 'Databases & Storage',
     description: 'Efficient data modeling, query optimization, and storage solutions.',
     skills: [
-      { name: 'MongoDB', category: 'NoSQL Document DB', level: 'Advanced', icon: Database },
-      { name: 'Mongoose', category: 'Schema & Validation', level: 'Advanced', icon: Layers },
       { name: 'PostgreSQL', category: 'Relational DB', level: 'Intermediate', icon: Database },
+      { name: 'MongoDB', category: 'NoSQL Document DB', level: 'Advanced', icon: Database },
+      { name: 'Redis', category: 'In-Memory Cache & Pub/Sub', level: 'Advanced', icon: Zap },
+      { name: 'Mongoose', category: 'Schema & Validation', level: 'Advanced', icon: Layers },
       { name: 'Cloudinary', category: 'Asset Management', level: 'Advanced', icon: Cloud },
     ],
   },
   {
-    title: 'DevOps & Workflow',
-    description: 'CI/CD, version control, and development efficiency toolset.',
+    title: 'DevOps, Cloud & Production VPS',
+    description: 'CI/CD, containerization, server provisioning, and edge deployments.',
     skills: [
+      { name: 'Docker', category: 'Containers & Compose', level: 'Advanced', icon: Boxes },
+      { name: 'Production VPS', category: 'Linux / Ubuntu / Nginx', level: 'Advanced', icon: Server },
       { name: 'Git & GitHub', category: 'Version Control', level: 'Advanced', icon: GitBranch },
       { name: 'Vercel / Edge', category: 'Hosting & Edge CI/CD', level: 'Advanced', icon: Cloud },
-      { name: 'Postman', category: 'API Testing', level: 'Advanced', icon: Terminal },
-      { name: 'Linux / Bash', category: 'Environment', level: 'Proficient', icon: Terminal },
+      { name: 'Linux / Bash', category: 'System Administration', level: 'Proficient', icon: Terminal },
+      { name: 'Postman', category: 'API Testing & CI', level: 'Advanced', icon: Terminal },
     ],
   },
 ];
 
 const Skills = () => {
   return (
-    <div id="skills" className="w-full py-24 sm:py-32 border-t border-white/5 relative bg-background-dark">
+    <div id="skills" className="w-full pt-32 sm:pt-40 pb-24 sm:pb-32 relative bg-background-dark">
       {/* Background Graphic */}
       <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
         <Cpu className="w-96 h-96" />
@@ -86,7 +89,7 @@ const Skills = () => {
           </div>
           <div className="max-w-md">
             <p className="text-sm font-sans text-text-muted leading-relaxed">
-              Over 3+ years of building production-grade web applications, I have mastered modern frameworks, scalable APIs, and database engineering.
+              Over 2+ years of building production-grade web applications, I have mastered modern frameworks, scalable APIs, and database engineering.
             </p>
           </div>
         </div>
