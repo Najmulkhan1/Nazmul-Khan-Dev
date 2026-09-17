@@ -3,6 +3,8 @@ import dbConnect from '@/lib/mongodb';
 import Project from '@/models/Project';
 import { projects } from '@/data/projects';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     await dbConnect();

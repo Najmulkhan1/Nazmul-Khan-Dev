@@ -5,6 +5,8 @@ export const metadata = {
   title: 'Admin Dashboard | Nazmul Khan',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function AdminLayout({ children }) {
   return (
     <div className="py-10 w-full">
